@@ -1,0 +1,12 @@
+.path {
+  padding: 0.5rem;
+  height: 2rem;
+  width: 100%;
+}
+.path-item {
+  margin: 0.5rem;
+}
+.path-item::after {
+  content: ">";
+  margin-left: 0.5rem;
+}

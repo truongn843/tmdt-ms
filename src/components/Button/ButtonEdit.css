@@ -1,0 +1,15 @@
+
+.btn{
+    height: auto;
+    width: auto;
+}
+.btn-outline-edit {
+  background-color: #ffffff;
+  font-size: 16px;
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+  color: #000000;
+}
+.btn-outline-edit:hover{
+    background-color: #c4c4c4;
+}

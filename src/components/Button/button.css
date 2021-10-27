@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.btn-outline {
+  font-size: 24px;
+  border: 1px solid #9fd3c7;
+  border-radius: 10px;
+  color: #9fd3c7;
+  font-weight: bolder;
+  margin: 0 1rem;
+  background-color: transparent;
+  padding: 0.2rem 1rem;
+}
+.btn-outline:hover {
+  color: #142d4c;
+  background-color: #9fd3c7;
+  border: 1px solid #142d4c;
+}

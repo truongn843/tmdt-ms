@@ -1,0 +1,9 @@
+{
+  "cost": ["Giá", "Tăng dần", "Giảm dần"],
+  "brand": ["Hãng", "Apple", "Samsung", "Oppo", "Xiaomi", "LG"],
+  "goods": ["Loại hàng", "Chính hãng", "Xách tay", "Hàng cũ"],
+  "batery": ["Pin", "Tăng dần", "Giảm dần"],
+  "camera": ["Camera", "Phân giải cao", "Phân giải thấp"],
+  "screen": ["Màn hình", "OLED", "Trên 6inchs", "4K", "Full HD"],
+  "type": ["Loại điện thoại", "Andoid", "IOS", "Loại khác"]
+}

@@ -1,0 +1,14 @@
+.button-dat-mua{
+    margin: 10px 0px 0px;
+    padding: 4px 12px;
+    width: 360px;
+    height: 50px;
+    line-height: 2;
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    border: 1px solid rgb(172, 34, 39);
+    outline-color: rgb(204, 204, 204);
+    border-radius: 3px;
+    cursor: pointer;
+    background: linear-gradient(rgb(239, 57, 89), rgb(215, 32, 65));
+}

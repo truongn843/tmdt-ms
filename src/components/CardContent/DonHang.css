@@ -1,0 +1,29 @@
+.thanh-tien-thanh-toan{
+    font-weight: bold;
+    font-size: large;
+}
+
+.canh-le-phai-so-tien{
+    text-align: right;
+}
+
+.gia-tien-thanh-toan{
+    color: red;
+    font-size: large;
+    font-weight: bold;
+}
+
+.adjust-margin{
+    margin: 20px;
+}
+
+.dh-column-left{
+    width: 75%;
+}
+.dh-column-right{
+    width: 20%;
+   
+}
+.dh-adjust{
+    display:flex;
+}

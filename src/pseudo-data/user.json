@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "email": "admin@gmail.com",
+    "password": "admin",
+    "role": "admin",
+    "fullname": "Luu Van Tien",
+    "phone": "123456",
+    "gender": "male",
+    "birthday": "20/06/2000"
+  },
+  {
+    "id": 2,
+    "email": "user@gmail.com",
+    "password": "user",
+    "role": "user",
+    "fullname": "Tien Luu Van",
+    "phone": "123456",
+    "gender": "female",
+    "birthday": "20/06/2000"
+  }
+]

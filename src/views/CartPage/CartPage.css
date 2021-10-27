@@ -1,0 +1,22 @@
+.cartPage {
+    width: 90%;
+    margin: auto;
+}
+.cartPage-path {
+    padding: 10px 20px;  
+}
+.cartPage-container {
+    display: flex;
+}
+.cartPage-left {
+    width: 70%;
+}
+.cartPage-right {
+    width: 30%;
+}
+#giohang {
+    padding: 10px 20px;
+}
+.cartPage-right > *{
+    margin: 20px;
+}

@@ -1,0 +1,28 @@
+.cartList-container{
+    font-family: "Roboto", sans-serif;
+}
+.cartList-header {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #B0B0B0;
+    box-sizing: border-box;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+.cartList-header h6{
+    margin-bottom: 0;
+}
+.cart-title {
+    width: 40%;
+    padding-left: 30px;
+}
+.cart-price {
+    width: 20%;
+}
+.cart-quantity {
+    width: 20%;
+}
+.cart-total {
+    width: 20%;
+}

@@ -1,0 +1,14 @@
+.icon-payment{
+   background-color: brown;
+   width: 32px;
+   height: 32px;
+   display: inline-block;
+}
+.khoang-cach{
+    margin-left: 10px;
+    display: inline-block;
+}
+
+.adjust-margin{
+    margin: 20px;
+}

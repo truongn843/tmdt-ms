@@ -1,0 +1,80 @@
+.form
+/* .form-image,
+.form-container { */ {
+  width: 1059px;
+  height: 728px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.form-image {
+  float: left;
+}
+.form-container {
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  background-color: #9fd3c7;
+  padding: 5rem 3rem 3rem 3rem;
+  right: 0px;
+  border-radius: 20px;
+}
+.login-content {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.login-result-error {
+  color: #db3906;
+  margin-left: 17px;
+  font-weight: bold;
+}
+.email,
+.password {
+  border: 1.5px solid #142d4c;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  font-weight: 400;
+  background-color: #9fd3c7;
+  padding: 0.5rem;
+  margin: 1rem;
+}
+.help {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+}
+.signup-account,
+.forgot-pass {
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+.login {
+  background-color: #142d4c;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  color: #9fd3c7;
+  font-weight: 900;
+  border: none;
+  padding: 0.3rem;
+  margin: 1rem;
+}
+.or {
+  margin: 1rem;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+.sso {
+  margin: 1rem;
+  font-size: 3rem;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 5rem;
+  color: #142d4c;
+}

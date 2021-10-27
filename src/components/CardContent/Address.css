@@ -1,0 +1,16 @@
+.name-dia-chi{
+    font-weight: bold;
+}
+.dien-thoai{
+    font-style: italic;
+}
+
+.adjust-margin{
+    margin: 20px;
+}
+
+.dcgh-adjust{
+    display: flex;
+    gap: 20%;
+    align-items: baseline;
+}

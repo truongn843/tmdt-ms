@@ -1,0 +1,40 @@
+[
+    {"product":  {
+        "id": 0,
+        "title": "Iphone 12 Pro Max",
+        "image": "https://hoanghamobile.com/i/preview/Uploads/2020/11/06/iphone-12-pro-max-2.png",
+        "price": "30000000",
+        "discounted": "20000000",
+        "rating": "4",
+        "ratingCount": "40",
+        "brand": "Apple",
+        "battery": "10000mAh",
+        "chipset": "Apple A15",
+        "frontCamera": "64MP",
+        "rearCamera": "32MP",
+        "bluetooth": "V5.0",
+        "gpu": "Apple GPU (4-core graphics)",
+        "screen": "Super Retina XDR OLED"
+    },
+    "quantity": 2},
+    {
+      "product": {
+        "id": 1,
+        "title": "Iphone 11",
+        "image": "https://hoanghamobile.com/i/preview/Uploads/2020/11/06/iphone-12-pro-max-2.png",
+        "price": "30000000",
+        "discounted": "20000000",
+        "rating": "3",
+        "ratingCount": "20",
+        "brand": "Apple",
+        "battery": "10000mAh",
+        "chipset": "Apple A15",
+        "frontCamera": "64MP",
+        "rearCamera": "32MP",
+        "bluetooth": "V5.0",
+        "gpu": "Apple GPU (4-core graphics)",
+        "screen": "Super Retina XDR OLED"
+      },
+      "quantity": 3
+    }
+  ]

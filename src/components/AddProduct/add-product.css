@@ -1,0 +1,40 @@
+.add-up {
+  background-color: #ececec;
+  height: fit-content;
+  border-radius: 10px;
+  padding: 1rem;
+  justify-content: space-between;
+}
+.text {
+  margin-left: 10px;
+}
+.col {
+  display: inline-block;
+  margin-right: 0px;
+}
+.add-picture {
+  vertical-align: top;
+  background-color: white;
+  padding-top: 15px;
+}
+.add-decs {
+  padding: 1rem;
+  background-color: #fff;
+  height: fit-content;
+  display: inline-block;
+}
+.add-btn {
+  width: 18rem;
+  background-color: #9fd3c7;
+  margin: 20px 0px 0px 250px;
+}
+h3 {
+  color: lightskyblue;
+  text-align: center;
+  margin-bottom: 0px;
+}
+.product-image{
+  border: 2px solid white;
+  padding: 0px;
+  vertical-align: top;
+}

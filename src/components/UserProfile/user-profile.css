@@ -1,0 +1,61 @@
+.user-container {
+  width: 64rem;
+  background-color: #ececec;
+  padding: 2rem;
+  margin: 0 auto;
+  border-radius: 10px;
+}
+.user-content {
+  margin: 2rem auto;
+  width: 64rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.form-check .form-check-input {
+  margin-left: -0.75em;
+  margin-right: 0.75em;
+}
+.submit-btn {
+  background-color: #ee4343;
+  color: white;
+  font-size: 1.5rem;
+}
+.submit-btn:hover{
+  color: #9fd3c7;
+}
+.update-success {
+  color: red;
+  font-weight: bold;
+  margin-left: 12px;
+}
+.alert {
+  padding: 10px;
+  background-color: lightyellow;
+  color: red;
+  animation: fadein;
+  animation-duration: 0.5s;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: black;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: red;
+}
+
+@keyframes fadein{
+  from {opacity: 0%;}
+  to {opacity: 100%;}
+}
+
+.vertical-align {
+  vertical-align: middle;
+}
