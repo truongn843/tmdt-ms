@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import {app} from "../../firebase";
 import "./user-profile.css";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, getFirestore, setDoc, doc } from "firebase/firestore";
 import { getAuth, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
-import { getFirestore, setDoc, doc } from "firebase/firestore"
 import { useHistory } from "react-router";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import userAvt from "../../assert/avatar.png";
 
 const auth = getAuth(app);
 
-function UserProfile() {
+function UserProfile(props) {
   const [msg, setMsg] = useState({ status: false, message: "" });
   const [msg2, setMsg2] = useState({ status: false, message: "" });
   const [pwd, setPwd] = useState({ currPwd: "", newPwd: "", newPwdRp: ""});
@@ -26,6 +25,8 @@ function UserProfile() {
     dateOfBirth: "",
     avatar: false
   });
+  
+  document.title = "Thông tin cá nhân - BK Phone";
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -50,6 +51,12 @@ function UserProfile() {
       })
     }
     fetchData();
+    try {
+      setMsg({status: true, message: history.location.state.msg});
+      window.scrollTo(0,100);
+    } catch (error) {
+      console.log(error);
+    };
   }, []);
 
   const submitHandler = (e) => {
@@ -70,12 +77,13 @@ function UserProfile() {
       if (user.avatar === true)
         data.avatar = true;
       await setDoc(doc(db, 'users', id), data);
-      if (user.avatar === true) {
+      if (user.avatar === true && img.selectedFile != null) { 
         uploadBytes(ref(storage, 'user-avatar/' + id), img.selectedFile);
       }
     }
     fetchData();
     setMsg({status: true, message: "Cập nhật thông tin thành công."});
+    window.scrollTo(0,100);
   }
 
   const closeMsg = () => setMsg({...msg, status: false});
@@ -122,7 +130,7 @@ function UserProfile() {
           )}
         <form onSubmit={submitHandler}>
           <div className="mb-3 row">
-            <label htmlFor="name" className="col-sm-4 col-form-label vertical-align">
+            <label className="col-sm-4 col-form-label vertical-align">
               Ảnh đại diện
             </label>
             <div className="col-sm-8">
@@ -159,56 +167,52 @@ function UserProfile() {
             </div>
           </div>
           <div className="mb-3 row">
-            <label htmlFor="name" className="col-sm-4 col-form-label">
+            <label className="col-sm-4 col-form-label">
               Họ tên
             </label>
             <div className="col-sm-8">
               <input
                 type="text"
                 className="form-control"
-                id="name"
                 onChange={(e) => setUser({ ...user, fullname: e.target.value })}
                 value={user.fullname}
               />
             </div>
           </div>
           <div className="mb-3 row">
-            <label htmlFor="phone" className="col-sm-4 col-form-label">
+            <label className="col-sm-4 col-form-label">
               Điện thoại
             </label>
             <div className="col-sm-8">
               <input
                 type="text"
                 className="form-control"
-                id="phone"
                 onChange={(e) => setUser({ ...user, phone: e.target.value })}
                 value={user.phone}
               />
             </div>
           </div>
           <div className="mb-3 row">
-            <label htmlFor="phone" className="col-sm-4 col-form-label">
+            <label className="col-sm-4 col-form-label">
               Địa chỉ giao hàng
             </label>
             <div className="col-sm-8">
               <input
                 type="text"
                 className="form-control"
-                id="address"
                 onChange={(e) => setUser({ ...user, address: e.target.value })}
                 value={user.address}
               />
             </div>
           </div>
           <div className="mb-3 row">
-            <label htmlFor="user-email" className="col-sm-4 col-form-label">
+            <label className="col-sm-4 col-form-label">
               Email
             </label>
             <div className="col-sm-8">
               <input
                 type="text"
                 className="form-control"
-                id="user-email"
                 onChange={(e) => setUser({ ...user, email: e.target.value })}
                 value={user.email}
                 disabled
@@ -216,16 +220,10 @@ function UserProfile() {
             </div>
           </div>
           <div className="mb-3 row">
-            <label htmlFor="gender" className="col-sm-4 col-form-label">
+            <label className="col-sm-4 col-form-label">
               Giới tính
             </label>
             <div className="col-sm-8">
-              {/* <input
-                type="text"
-                className="form-control"
-                id="gender"
-              />
-               */}
               <input type="radio" value="male" name="gender"
                 onChange={(e) => setUser({ ...user, gender: 'male' })}
                 checked={user.gender === 'male'}
@@ -237,14 +235,13 @@ function UserProfile() {
             </div>
           </div>
           <div className="mb-3 row">
-            <label htmlFor="birthday" className="col-sm-4 col-form-label">
+            <label className="col-sm-4 col-form-label">
               Ngày sinh
             </label>
             <div className="col-sm-8">
               <input
                 type="date"
                 className="form-control"
-                id="birthday"
                 onChange={(e) => setUser({ ...user, dateOfBirth: e.target.value })}
                 value={user.dateOfBirth}
               />
@@ -268,49 +265,46 @@ function UserProfile() {
           )}
         <form onSubmit={handleChangePwd}>
           <div className="mb-3 row">
-            <label htmlFor="phone" className="col-sm-4 col-form-label">
+            <label className="col-sm-4 col-form-label">
               Mật khẩu hiện tại
             </label>
             <div className="col-sm-8">
               <input
                 type="password"
                 className="form-control"
-                id="address"
                 onChange={(e) => setPwd({ ...pwd, currPwd: e.target.value })}
                 required
               />
             </div>
           </div>
           <div className="mb-3 row">
-            <label htmlFor="phone" className="col-sm-4 col-form-label">
+            <label className="col-sm-4 col-form-label">
               Mật khẩu mới
             </label>
             <div className="col-sm-8">
               <input
                 type="password"
                 className="form-control"
-                id="address"
                 onChange={(e) => setPwd({ ...pwd, newPwd: e.target.value })}
                 required
               />
             </div>
           </div>
           <div className="mb-3 row">
-            <label htmlFor="phone" className="col-sm-4 col-form-label">
+            <label className="col-sm-4 col-form-label">
               Nhập lại mật khẩu mới
             </label>
             <div className="col-sm-8">
               <input
                 type="password"
                 className="form-control"
-                id="address"
                 onChange={(e) => setPwd({ ...pwd, newPwdRp: e.target.value })}
                 required
               />
             </div>
           </div>
           <div className="mb-3 row">
-            <label htmlFor="" className="col-sm-4 col-form-label"></label>
+            <label className="col-sm-4 col-form-label"></label>
             <div className="col-sm-8">
               <button className="btn submit-btn" type="submit">Đổi mật khẩu</button>
             </div>

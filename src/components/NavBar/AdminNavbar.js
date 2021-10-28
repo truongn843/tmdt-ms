@@ -49,6 +49,8 @@ function AdminNavbar() {
       console.log("Sign out successfully.");
     }).catch((error) => {
     });
+    localStorage.removeItem('email');
+    localStorage.removeItem('userID');
     history.push("/");
   };
   const handleAddProduct = () => {

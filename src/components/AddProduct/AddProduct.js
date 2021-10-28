@@ -54,7 +54,8 @@ function AddProduct() {
     charge: "USB Type C",
     wifi: "",
     os: "Android",
-    mobileNetwork: "4G"
+    mobileNetwork: "4G",
+    rating: "n/a"
   });
 
   onAuthStateChanged(auth, (user)=> {

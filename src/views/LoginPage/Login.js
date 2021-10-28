@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { useHistory } from "react-router";
@@ -11,7 +11,7 @@ import "../../components/reset.css";
 import "./login.css";
 
 
-function Login() {
+function Login(props) {
   const [user, setUser] = useState({ email: "", password: "" });
   const [error, setError] = useState({ status: false, message: "" });
   let history = useHistory();
@@ -36,6 +36,7 @@ function Login() {
           const q = query(collection(db, "users"), where("email", "==", user.email));
           const querySnapshot = await getDocs(q);
           querySnapshot.forEach((doc)=>{
+            localStorage.setItem('userID', doc.id);
             if (doc.data().type === 'admin')
               history.push('/admin');
             else 
@@ -58,14 +59,18 @@ function Login() {
     })
     .catch((error) => {
       // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
     });
     
   };
   const singupHandler = () => {
     history.push("/signup");
   };
+  useEffect(() => {
+    try{
+      setError({status: true, message: props.location.state.msg});
+    }
+    catch (error) {};
+  }, [])
 
   return (
     <div>

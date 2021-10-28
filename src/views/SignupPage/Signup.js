@@ -35,7 +35,6 @@ function SignUp() {
         const loggedUser = userCredential.user;
         console.log("Register Successfully");
         setError({status: true, message: "Đăng kỷ thành công! Bạn sẽ được chuyển hướng sau vài giây."});
-
         const addNewUser = async () => {
           const db = getFirestore(app);
           await addDoc(collection(db, 'users'), {
@@ -47,9 +46,12 @@ function SignUp() {
             gender: null,
             dateOfBirth: null,
             address: null
+          }).then((docRef)=>{
+            localStorage.setItem('userID', docRef.id);
           })
         }
         addNewUser();
+        localStorage.setItem('email', loggedUser.email);
         setTimeout(()=>history.push("/user"), 2000);
         //history.push("/");
         // ...

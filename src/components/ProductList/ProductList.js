@@ -35,10 +35,12 @@ function ProductList(){
           setDisplayProduct(prevState => ({
             list: [...prevState.list, (
               <ProductCard 
+              id={doc.id}
               title={doc.data().title}
               price={doc.data().price}
               discountFrom={doc.data().discountFrom}
               imgURL={url}
+              rating={doc.data().rating === "n/a" ? 0 : doc.data().rating}
             ></ProductCard>
             )]
           }));
@@ -108,6 +110,7 @@ function ProductList(){
       </div>
     </div>
     <div className="product-container">
+      <div className="product-container-label">Điện thoại nổi bật</div>
       {displayProduct.list}
     </div>
     </div>

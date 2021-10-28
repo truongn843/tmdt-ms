@@ -27,3 +27,7 @@
 .dh-adjust{
     display:flex;
 }
+
+#dh-title{
+    font-weight: 600;
+}

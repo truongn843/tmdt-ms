@@ -20,7 +20,18 @@ function UserNavbar() {
   let email = localStorage.getItem('email');
 
   onAuthStateChanged(auth, (user)=> {
-    if(user);
+    if(user){
+      const verifyAdmin = async () => {
+        const db = getFirestore(app);
+        const q = query(collection(db, "users"), where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc)=>{
+          if (doc.data().type === "admin")
+            history.push("/admin");
+        })
+      }
+      verifyAdmin();
+    }
     else
       history.push("/");
   });
@@ -50,6 +61,7 @@ function UserNavbar() {
     }).catch((error) => {
     });
     localStorage.removeItem('email');
+    localStorage.removeItem('userID');
     history.push("/");
   };
   const handleViewCart = () => {

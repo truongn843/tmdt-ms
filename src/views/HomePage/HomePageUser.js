@@ -5,6 +5,7 @@ import ProductList from "../../components/ProductList/ProductList";
 import "./homepage.css";
 
 function HomePageUser() {
+  document.title = "BK Phone";
   return (
     <div>
       <UserNavbar />

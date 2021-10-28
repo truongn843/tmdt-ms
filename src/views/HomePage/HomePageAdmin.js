@@ -11,6 +11,7 @@ function HomePageGuest() {
     localStorage.removeItem("token");
     history.push("/login");
   };
+  document.title = "BK Phone";
   return (
     <div>
       <Navbar handleLogout={handleLogout} />

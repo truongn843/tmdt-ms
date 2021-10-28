@@ -1,3 +1,78 @@
-.content-justify {
-  justify-content: center;
+.payment-container .cartList-container{
+  margin-top: 20px;
+}
+.payment-container #km-btn{
+  display: none;
+}
+.payment-container #km-input{
+  width: 100%;
+}
+.payment-container #address-edit{
+  display: none;
+}
+.payment-container .btn-payment{
+  width: 25%;
+  margin-right: 0;
+}
+.payment-container .cartList-container .btn-comeback{
+  float: left;
+}
+.payment-container fieldset{
+  border: 1px solid #B0B0B0;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+.payment-container fieldset legend{
+  position: relative;
+  top: -20px;
+  margin-left: 20px;
+  background-color: white;
+  width: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.payment-container .fieldset-container{
+  position: relative;
+  top: -20px;
+  margin: 0px 10px 0px 10px;
+}
+.payment-container .radio-fake{
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgb(120, 120, 120);
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 10px 13px 10px 0px;
+  position: relative;
+  z-index: 1;
+  color: rgb(120, 120, 120);
+}
+.payment-container .input-group label{
+  font-size: 20px;
+  padding-top: 7px;
+  font-weight: 100;
+}
+.payment-container .input-group label:hover{
+  cursor: pointer;
+  opacity: 0.75;
+}
+.payment-container .radio-fake:checked ~ label{
+  font-weight: 550;
+}
+.payment-container .input-group .input-icon{
+  font-size: 25px;
+  width: 40px;
+  margin-right: 5px;
+}
+.payment-container .input-group .icon-run{
+  color: skyblue;
+}
+.payment-container .input-group .icon-motor-grab{
+  padding-top: 3px;
+  color: green;
+}
+.payment-container .input-group .icon-motor-ghn{
+  padding-top: 3px;
+  color: orangered;
 }

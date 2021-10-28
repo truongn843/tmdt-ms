@@ -1,29 +1,31 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Address.css';
 import ButtonEdit from '../Button/ButtonEdit' ;
-export default class Address extends Component {
-    render() {
-        return (
-            <div className='card'>
-                <div className='adjust-margin'> 
-                <div className='dcgh-adjust'>
-                Địa chỉ giao hàng
-                <ButtonEdit/>
-                </div>
-               
-                <hr />
-                <div className='name-dia-chi'>
-                    Name
-                </div>
-                <div className='dia-chi'>
-                    Lý Thường Kiệt, Quận 10, HCM
-                </div>
-                <div className='dien-thoai'>
-                    0123456789
-                </div>
-                </div>
+
+function Address(props){
+    return (
+        <div className='card'>
+            <div className='adjust-margin'>
+            <div id='address-header'>
+                <span id="address">Địa chỉ giao hàng</span>
+                <div id='address-edit'><ButtonEdit url="/user-profile"/></div>
             </div>
             
-        )
-    }
+            <br/>
+            <hr />
+            <div className='name-dia-chi'>
+                {props.fullname !== null ? props.fullname : "Bạn chưa nhập tên."}
+            </div>
+            <div className='dia-chi'>
+                {props.address !== null ? props.address : "Bạn chưa nhập địa chỉ nhận hàng."}
+            </div>
+            <div className='dien-thoai'>
+                SĐT: {props.phone}
+            </div>
+            </div>
+        </div>
+        
+    );
 }
+
+export default Address;

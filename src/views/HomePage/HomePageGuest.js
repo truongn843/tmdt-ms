@@ -11,6 +11,7 @@ function HomePageGuest() {
     console.log("LOGIN");
     history.push("/login");
   };
+  document.title = "BK Phone";
   return (
     <div>
       <GuestNavbar handleLogin={handleLogin} />
