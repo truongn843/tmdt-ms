@@ -15,6 +15,7 @@ function UserProfile(props) {
   const [pwd, setPwd] = useState({ currPwd: "", newPwd: "", newPwdRp: ""});
   const [img, setImg] = useState({selectedFile: null, imgURL: ""});
   const [email, setEmail] = useState({value: null});
+  const [tab, setTab] = useState({value: 1});
   let history = useHistory();
   const userID = localStorage.getItem('userID');
   const [user, setUser] = useState({
@@ -119,10 +120,19 @@ function UserProfile(props) {
   return (
     <div className="container">
       <div className="tab-group">
-        <div className="user-content">Thông tin tài khoản</div>
-        <div className="user-content">Đổi mật khẩu</div>
-        <div className="user-content">Đơn hàng</div>
-      </div>  
+        <div className={"user-content " + (tab.value === 1 ? 'active' : '')} onClick={()=>setTab({value:1})}>
+          Thông tin tài khoản
+        </div>
+        <div className={"user-content " + (tab.value === 2 ? 'active' : '')} onClick={()=>setTab({value:2})}>
+          Đổi mật khẩu
+        </div>
+        <div className={"user-content " + (tab.value === 3 ? 'active' : '')} onClick={()=>setTab({value:3})}>
+          Đơn hàng
+        </div>
+      </div> 
+      { tab.value === 1 &&
+
+      
       <div className="user-container">
           {msg.status === true && (
             <div className="alert">
@@ -255,7 +265,9 @@ function UserProfile(props) {
           </div>
         </form>
       </div>
-      <div className="user-content">Đổi mật khẩu</div>
+      }
+      { tab.value === 2 &&
+
       <div className="user-container">
           {msg2.status === true && (
             <div className="alert">
@@ -311,6 +323,7 @@ function UserProfile(props) {
           </div>
         </form>
       </div>
+      }
     </div>
   );
 }
