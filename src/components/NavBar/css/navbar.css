@@ -2,20 +2,21 @@
   background-color: #142d4c;
 }
 .nav-search {
+  float: left;
   border: 1px solid #9fd3c7;
   border-radius: 10px;
   /* display: flex; */
   font-size: 20px;
   color: #9fd3c7;
   align-items: center;
-  padding: 0.3rem 2rem;
+  padding: 6px 5px 6px 15px;
+  width: 20%;
 }
 .nav-search__input {
-  margin: 0 1rem;
   background: transparent;
   border: none;
   color: #9fd3c7;
-  margin-left: 2rem;
+  margin-left: 1rem;
 }
 .nav-search__input:focus{
   outline: none;

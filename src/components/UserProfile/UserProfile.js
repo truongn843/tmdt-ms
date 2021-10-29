@@ -137,19 +137,19 @@ function UserProfile(props) {
               <div className="col-sm-5">
               {img.selectedFile === null ? (user.avatar === true ? (
                 <img
-                className="product-image"
+                className="avatar-image"
                 src={img.imgURL}
                 alt="User Avatar"
               />
               ) : (
                 <img
-                className="product-image"
+                className="avatar-image"
                 src={userAvt}
                 alt="User Avatar"
               />
               )) : (
               <img
-                className="product-image"
+                className="avatar-image"
                 src={URL.createObjectURL(img.selectedFile)}
                 alt="Product Preview"
               />

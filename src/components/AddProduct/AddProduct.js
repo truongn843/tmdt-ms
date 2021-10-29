@@ -50,7 +50,9 @@ function AddProduct() {
     wifi: "",
     os: "Android",
     mobileNetwork: "4G",
-    rating: "n/a"
+    rating: "n/a",
+    ratingCount: 0,
+    description: ""
   });
 
   bluetoothVers.forEach((ver, i)=>{

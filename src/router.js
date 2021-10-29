@@ -25,11 +25,6 @@ const routes = [
     component: OrderPageView,
   },
   {
-    path: "/product-card",
-    exact: true,
-    component: ProductCard,
-  },
-  {
     path: "/user",
     exact: true,
     component: HomePageUserView,
@@ -75,7 +70,7 @@ const routes = [
     component: AdminProfilePageView,
   },
   {
-    path: "/product/:id",
+    path: "/product-detail",
     exact: true,
     component: ProductPageView,
   },

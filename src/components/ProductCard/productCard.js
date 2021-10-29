@@ -5,16 +5,14 @@ import { faCheck, faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icon
 import { faStar as faStarReg } from "@fortawesome/free-regular-svg-icons";
 import { useHistory } from "react-router";
 import addToCart  from "../../firebase.js";
+import RatingStar from "../RatingStar/RatingStar";
 
 
 function ProductCard (props) {
-    let rating = props.rating;
-    const [starDisplay, setSD] = useState({list: []});
     const [discount, setDiscount] = useState({status: false, value: null});
     const [price, setPrice] = useState({status: false, value: null});
     const [addSuccess, setAdd] = useState({status: false});
     let history = useHistory();
-
 
     useEffect(() => {
         if (props.discountFrom !== ""){
@@ -23,35 +21,14 @@ function ProductCard (props) {
         if (props.price !== "Hết hàng"){
             setPrice({status: true, value: props.price})
         }
-        let remainingStar = 5;
-        for (let i = 0; i < Math.floor(rating); i++, remainingStar--)
-            setSD(prev=>({
-                list: [
-                    ...prev.list,
-                    (<div className="star"><FontAwesomeIcon icon={faStar}/></div>)
-                ]
-           }));
-        if ((Math.ceil(rating) !== Math.floor(rating)) && (Math.round(5 - rating) === Math.floor(5 - rating))){
-            remainingStar--;
-            setSD(prev=>({
-                list: [
-                    ...prev.list,
-                    (<div className="star"><FontAwesomeIcon icon={faStarHalfAlt}/></div>)
-                ]
-            }));
-        }
-        for(let i = 0; i <  remainingStar; i++)
-            setSD(prev=>({
-                list: [
-                    ...prev.list,
-                    (<div className="star"><FontAwesomeIcon icon={faStarReg}/></div>)
-                ]
-            }));
             
     }, [])
     
     const handleDetail = e => {
-        console.log("ngu");
+        history.push({
+            pathname: "/product-detail",
+            state: {prdID: props.id}
+        })
     }
 
     const handleAddItem = e => {
@@ -81,9 +58,7 @@ function ProductCard (props) {
                 <div className="stats">        	
                     <div className="stats-container">
                         <div className="product_name">{props.title}</div> 
-                        <div className="stars">
-                            {starDisplay.list}
-                        </div>
+                        <RatingStar rating={props.rating} />
                         { discount.status === true ? (
                             <div className="product_discounted_price">
                                 {Number(props.discountFrom).toLocaleString("vi-VN", {
