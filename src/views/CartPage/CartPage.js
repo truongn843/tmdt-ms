@@ -49,7 +49,7 @@ function CartPage() {
         setPhone({value: doc.data().phone});
       })
     }
-    verifyAdmin();
+    if (email !== null) verifyAdmin();
     const loadVoucher = async () => {
       const cartRef = doc(db, 'carts', localStorage.getItem('userID'));
       const cartSnap = await getDoc(cartRef);
@@ -93,7 +93,7 @@ function CartPage() {
         }))
       });
     }
-    loadCartData();
+    if (email !== null) loadCartData();
   }, [])
 
   const handlePayment = () => {

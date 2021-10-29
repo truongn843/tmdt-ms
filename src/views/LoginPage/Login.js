@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import { useHistory } from "react-router";
 import banner from "../../assert/banner.png";
 import { app } from "../../firebase";
@@ -85,6 +86,9 @@ function Login(props) {
   const singupHandler = () => {
     history.push("/signup");
   };
+  const backToHome = e => {
+    history.push("/");
+  }
   useEffect(() => {
     try{
       setError({status: true, message: props.location.state.msg});
@@ -96,6 +100,7 @@ function Login(props) {
     <div>
       <div className="form" onSubmit={submitHandler}>
         <img src={banner} alt="" className="form-image" />
+        <div className="homepage" onClick={backToHome}><FontAwesomeIcon icon={faArrowLeft}/> Trang chủ</div>
         <form action="" className="form-container">
           <div className="login-content">Đăng nhập</div>
           {error.status === true && (

@@ -8,10 +8,12 @@ function MaKhuyenMai (props) {
     const [apply, setApply] = useState({value: false, code: null});
 
     const db = getFirestore(app);
-    const cartRef = doc(db, 'carts', localStorage.getItem('userID'));
+    
+    const userID = localStorage.getItem('userID');
 
     useEffect(()=>{
         const loadVoucher = async () => {
+            const cartRef = doc(db, 'carts', userID);
             const cartSnap = await getDoc(cartRef);
             if (cartSnap.exists()){
                 if (cartSnap.data().voucher !== ""){
@@ -20,11 +22,12 @@ function MaKhuyenMai (props) {
                 }
             }
         };
-        loadVoucher();
+        if (userID !== null) loadVoucher();
     },[]);
 
     const applyVoucher = e => {
         const checkVoucher = async () => {
+            const cartRef = doc(db, 'carts', userID);
             const q = query(collection(db, "vouchers"), where("code", "==", apply.code));
             const querySnapshot = await getDocs(q);
             let found = false;
@@ -49,6 +52,7 @@ function MaKhuyenMai (props) {
 
     const removeVoucher = e => {
         const removeVoucher = async () => {
+            const cartRef = doc(db, 'carts', userID);
             const cartSnap = await getDoc(cartRef);
             let userCart = JSON.parse(JSON.stringify(cartSnap.data()));
             userCart.voucher = "";
