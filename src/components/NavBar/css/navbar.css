@@ -5,7 +5,7 @@
   border: 1px solid #9fd3c7;
   border-radius: 10px;
   /* display: flex; */
-  font-size: 24px;
+  font-size: 20px;
   color: #9fd3c7;
   align-items: center;
   padding: 0.3rem 2rem;
@@ -27,20 +27,29 @@
   align-items: center;
 }
 .logout-btn {
-  font-size: 3rem;
+  float: right;
+  margin-right: 35%;
+  font-size: 2.5rem;
   color: #9fd3c7;
 }
+.logout-btn:hover {
+  cursor: pointer;
+  color: white;
+}
 .avatar {
-  height: 50px;
-  width: 50px;
-  border-radius: 25px;
+  float: right;
+  height: 44px;
+  width: 44px;
+  border-radius: 22px;
   border: 1px solid #9fd3c7;
 }
 .email-label {
+  float: right;
   color: white;
   font-weight: bold;
   font-size: 1.2rem;
-  padding: 10px;
+  margin: 0px 10px 0px 10px;
+  padding: 0;
 }
 .email-label:hover {
   cursor: pointer;
@@ -48,4 +57,19 @@
 }
 .avatar:hover {
   opacity: 0.5;
+}
+.navbar .btn-cart {
+  margin-right: 10px;
+  width: 160px;
+  float: right;
+}
+.navbar .btn-login{
+  float: right;
+  margin-right: 30%;
+  width: 170px;
+  margin-left: 100px;
+}
+.navbar .btn-edit{
+  float: right;
+  width: 150px;
 }

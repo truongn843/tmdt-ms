@@ -1,20 +1,15 @@
 import React, { useState } from "react";
 import "./add-product.css";
 import {app} from "../../firebase";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, collection, addDoc, query, where, getDocs } from "firebase/firestore";
-import { useHistory } from "react-router";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import Select from 'react-select';
 import placeholder from '../../assert/placeholder.png';
 
-const auth = getAuth(app);
 
 function AddProduct() {
   const [msg, setMsg] = useState({ status: false, message: "Thêm sản phẩm thành công!" });
   const [img, setImg] = useState({selectedFile: null});
-  let history = useHistory();
-  let email = localStorage.getItem('email');
   const bluetoothVers = [5, 4.2, 4.1, 4, 3];
   const simTypes = ['Không hỗ trợ', 'Nano SIM', 'Micro SIM', 'eSIM'];
   const bluetoothOptions = [];
@@ -56,23 +51,6 @@ function AddProduct() {
     os: "Android",
     mobileNetwork: "4G",
     rating: "n/a"
-  });
-
-  onAuthStateChanged(auth, (user)=> {
-    if(user){
-      const verifyAdmin = async () => {
-        const db = getFirestore(app);
-        const q = query(collection(db, "users"), where("email", "==", email));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc)=>{
-          if (doc.data().type !== "admin")
-            history.push("/user");
-        })
-      }
-      verifyAdmin();
-    }
-    else
-      history.push("/");
   });
 
   bluetoothVers.forEach((ver, i)=>{
@@ -174,7 +152,7 @@ function AddProduct() {
                   onChange={(e) => {
                     setProduct({ ...product, title: e.target.value });
                   }}
-                  placeholder="Tên điện thoại ngắn ngọn, vd: Iphone 13 Pro 64GB"
+                  placeholder="Tên điện thoại vắn tắt, vd: Iphone 13 Pro 64GB"
                   required
                 />
               </div>
@@ -199,7 +177,7 @@ function AddProduct() {
             </div>
             <div className="mb-3 row">
               <label htmlFor="screen" className="col-sm-4 col-form-label">
-                Giá bán (trĐ)
+                Giá bán (VNĐ)
               </label>
               <div className="col-sm-8">
                 <input
@@ -210,14 +188,14 @@ function AddProduct() {
                   onChange={(e) => {
                     setProduct({ ...product, price: e.target.value });
                   }}
-                  placeholder="Vd: 21.299. Nếu hết hàng thì để 'Hết hàng'"
+                  placeholder="Vd: 21299000. Nếu hết hàng thì để 'Hết hàng'"
                   required
                 />
               </div>
             </div>
             <div className="mb-3 row">
               <label htmlFor="screen" className="col-sm-4 col-form-label">
-                Giá gốc (trĐ)
+                Giá gốc (VNĐ)
               </label>
               <div className="col-sm-8">
                 <input

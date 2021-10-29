@@ -11,12 +11,18 @@ import AdminProfilePageView from "./views/UserProfilePage/AdminProfilePage";
 import ProductPageView from "./views/ProductPage/ProductPage";
 import ProductCard from "./components/ProductCard/productCard";
 import Error from "./components/Error/Error";
+import OrderPageView from "./views/OrderPage/OrderPage";
 
 const routes = [
   {
     path: "/",
     exact: true,
     component: HomePageGuestView,
+  },
+  {
+    path: "/order-status",
+    exact: true,
+    component: OrderPageView,
   },
   {
     path: "/product-card",

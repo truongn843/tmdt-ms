@@ -8,11 +8,11 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore"
 
 import ButtonCart from "../Button/ButtonCart";
-import ButtonAddProduct from "../Button/ButtonAddProduct";
 import avatar from "../../assert/avatar.png";
 import "../reset.css";
 import "./css/navbar.css";
 import Logo from "./Logo/Logo";
+import ButtonManage from "../Button/ButtonManage";
 
 function AdminNavbar() {
   const [img, setImg] = useState({avatar: false, imgURL: ""});
@@ -20,11 +20,6 @@ function AdminNavbar() {
   const auth = getAuth(app);
   let email = localStorage.getItem('email');
 
-  onAuthStateChanged(auth, (user)=> {
-    if(user);
-    else
-      history.push("/");
-  });
   useEffect(()=>{
     const fetchData = async () => {
       const db = getFirestore(app);
@@ -53,9 +48,7 @@ function AdminNavbar() {
     localStorage.removeItem('userID');
     history.push("/");
   };
-  const handleAddProduct = () => {
-    history.push("/add-product");
-  };
+  
   const handleViewProfile = () => {
     history.push(`/admin-profile`);
   };
@@ -74,7 +67,7 @@ function AdminNavbar() {
         />
       </div>
       <div className="btn-group">
-        <ButtonAddProduct handleAddProduct={handleAddProduct} />
+        <ButtonManage />
         <ButtonCart handleViewCart={handleViewCart} />
         <div className="btn user-ava" onClick={handleViewProfile}>
         {img.avatar === true ? (

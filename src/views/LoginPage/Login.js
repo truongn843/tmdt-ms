@@ -4,7 +4,7 @@ import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { useHistory } from "react-router";
 import banner from "../../assert/banner.png";
 import { app } from "../../firebase";
-import { getAuth, signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, setPersistence, browserSessionPersistence, onAuthStateChanged } from "firebase/auth";
 import { collection, query, where, getDocs, getFirestore } from "firebase/firestore";
 
 import "../../components/reset.css";
@@ -15,6 +15,26 @@ function Login(props) {
   const [user, setUser] = useState({ email: "", password: "" });
   const [error, setError] = useState({ status: false, message: "" });
   let history = useHistory();
+  const auth = getAuth(app);
+  let email = localStorage.getItem('email');
+
+  onAuthStateChanged(auth, (user)=> {
+    if(user && email !== null){
+      const verifyAdmin = async () => {
+        const db = getFirestore(app);
+        const q = query(collection(db, "users"), where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc)=>{
+          if (doc.data().type === "admin")
+            history.push("/admin");
+          else 
+            history.push("/user");
+        })
+      }
+      verifyAdmin();
+    }
+  });
+
   const submitHandler = (e) => {
     e.preventDefault();
     const auth = getAuth(app);

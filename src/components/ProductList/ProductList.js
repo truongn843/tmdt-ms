@@ -52,23 +52,21 @@ function ProductList(){
 
   return (
     <div>
+
+    <div className="product-container">
     <div className="filter-bar">
       <div className="group-select">
-        <div className="btn filter-btn">Bộ lọc</div>
+        <div className="btn filter-btn">Reset bộ lọc</div>
         {/* Giá */}
         <FilterButton data={filterData.cost} />
         {/* Hãng */}
         <FilterButton data={filterData.brand} />
-        {/* Loại hàng */}
-        <FilterButton data={filterData.goods} />
         {/* Pin */}
         <FilterButton data={filterData.batery} />
         {/* Camera  */}
         <FilterButton data={filterData.camera} />
         {/* Màn hình */}
         <FilterButton data={filterData.screen} />
-        {/* Loại điện thoại  */}
-        <FilterButton data={filterData.type} />
       </div>
       <div className="group-result">
         <div className="result">{prdList.list.length} sản phẩm</div>
@@ -109,7 +107,6 @@ function ProductList(){
         </div>
       </div>
     </div>
-    <div className="product-container">
       <div className="product-container-label">Điện thoại nổi bật</div>
       {displayProduct.list}
     </div>

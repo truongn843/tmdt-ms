@@ -17,11 +17,11 @@ export default function CartItem(props) {
         return item.id !== props.id;
       })
       console.log(userCart);
-      await setDoc(cartRef, userCart);
+      await setDoc(cartRef, userCart).then(()=>{
+        document.location.reload(window.scrollY);
+      });
     }
-    rmv().then(()=>{
-      document.location.reload(window.scrollY);
-    });
+    rmv();
   }
   const handleIncrease = e => {
     const inc = async () => {
@@ -33,11 +33,13 @@ export default function CartItem(props) {
         return item;
       })
       console.log(userCart);
-      await setDoc(cartRef, userCart);
+      await setDoc(cartRef, userCart).then(()=>{
+        document.location.reload(window.scrollY);
+      });
     }
-    inc().then(()=>{
-      document.location.reload(window.scrollY);
-    });
+    inc();
+      //document.location.reload(window.scrollY);
+
   }
   const handleDecrease = e => {
     let success = false;
@@ -53,12 +55,12 @@ export default function CartItem(props) {
         return item;
       })
       console.log(userCart);
-      await setDoc(cartRef, userCart);
+      await setDoc(cartRef, userCart).then(()=>{
+        if (success)
+          document.location.reload(window.scrollY);
+      });
     }
-    dec().then(()=>{
-      if (success)
-        document.location.reload(window.scrollY);
-    });
+    dec();
   }
   return (
     <div className="cartItemcontainer">
@@ -67,7 +69,7 @@ export default function CartItem(props) {
         {props.name}
       </div>
       <div className="cartItemPrice">
-        {Number(parseFloat(props.price) * 1000000).toLocaleString("vi-VN", {
+        {Number(props.price).toLocaleString("vi-VN", {
           style: "currency",
           currency: "VND",
         })}
@@ -83,7 +85,7 @@ export default function CartItem(props) {
       </div>
       <div className="cartItemTotal">
         {(
-          Number(parseFloat(props.price) * 1000000) * props.quantity
+          Number(props.price) * props.quantity
         ).toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
         <button className="cartDelete" type="button" onClick={handleRemove}>
           <FaTrashAlt />

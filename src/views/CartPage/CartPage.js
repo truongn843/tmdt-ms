@@ -7,7 +7,7 @@ import DonHang from "../../components/CardContent/DonHang";
 import { useHistory } from "react-router";
 import UserNavbar from "../../components/NavBar/UserNavbar";
 import AdminNavbar from "../../components/NavBar/AdminNavbar";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons"
+import { faShoppingCart, faChevronLeft } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {onAuthStateChanged, getAuth} from "firebase/auth";
 import {app} from "../../firebase";
@@ -57,7 +57,7 @@ function CartPage() {
         percent: 0,
         max: 0
       };
-      if (cartSnap.data().voucher !== ""){
+      if (cartSnap.exists() && cartSnap.data().voucher !== ""){
         const q = query(collection(db, "vouchers"), where("code", "==", cartSnap.data().voucher));
         const querySnapshot = await getDocs(q);
         
@@ -72,6 +72,7 @@ function CartPage() {
       const voucher = await loadVoucher();
       const cartRef = doc(db, 'carts', localStorage.getItem('userID'));
       const cartSnap = await getDoc(cartRef);
+      if (cartSnap.exists())
       cartSnap.data().cartItems.forEach((item)=>{
         setCart(prev=>({
           items: [...prev.items,(
@@ -85,10 +86,10 @@ function CartPage() {
           )]
         }));
         setCost(prev=>({
-          estimated: parseFloat(item.price) * 1000000 * item.quantity + prev.estimated,
+          estimated: item.price * item.quantity + prev.estimated,
           voucherDiscount: 
-            (prev.voucherDiscount + parseFloat(item.price) * 1000000 * item.quantity * voucher.percent / 100 > voucher.max) ?
-            voucher.max : (prev.voucherDiscount + parseFloat(item.price) * 1000000 * item.quantity * voucher.percent / 100)
+            (prev.voucherDiscount + item.price * item.quantity * voucher.percent / 100 > voucher.max) ?
+            voucher.max : (prev.voucherDiscount + item.price * item.quantity * voucher.percent / 100)
         }))
       });
     }
@@ -111,6 +112,10 @@ function CartPage() {
     };
   };
 
+  const backToHome = () => {
+    history.push("/user");
+  }
+
   document.title = "Giỏ hàng - BK Phone";
 
   return (
@@ -131,8 +136,9 @@ function CartPage() {
             </div>
             { cart.items.length === 0 ?
               (<div className="no-items">Không có sản phẩm nào trong giỏ hàng.</div>) :
-              (<div className="btn-payment" onClick={handlePayment}>Tiếp tục thanh toán</div>)
+              (<div className="btn-payment" onClick={handlePayment}>Tiến hành thanh toán</div>)
             }
+            <div className="btn-payment btn-comeback" onClick={backToHome}><FontAwesomeIcon icon={faChevronLeft}/> Trang Chủ</div>
             
           </div>
           <div className="cartPage-right">

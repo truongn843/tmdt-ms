@@ -21,7 +21,7 @@
   appearance: none;
   background: transparent url("../../assert/arrow.png") no-repeat right;
   background-position-x: 92%;
-  border: 1px solid #385170;
+  border: 2px solid #385170;
   background-color: white;
   border-radius: 5px;
   font-size: 1.125rem;

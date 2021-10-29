@@ -2,16 +2,38 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import banner from "../../assert/banner.png";
 import { app } from "../../firebase";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, collection, addDoc } from "firebase/firestore"
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, collection, addDoc, query, where, getDocs } from "firebase/firestore"
 
 import "../../components/reset.css";
 import "./signup.css";
 
 function SignUp() {
-  let history = useHistory();
   const [user, setUser] = useState({ email: "", password: "", rPassword: "" , phone: ""});
   const [error, setError] = useState({ status: false, message: "" });
+
+  let history = useHistory();
+  const auth = getAuth(app);
+  let email = localStorage.getItem('email');
+
+  onAuthStateChanged(auth, (user)=> {
+    if(user && email !== null){
+      const verifyAdmin = async () => {
+        const db = getFirestore(app);
+        const q = query(collection(db, "users"), where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc)=>{
+          if (doc.data().type === "admin")
+            history.push("/admin");
+          else 
+            history.push("/user");
+        })
+      }
+      verifyAdmin();
+    }
+  });
+
+
   const handleLogin = () => {
     history.push("/login");
   };

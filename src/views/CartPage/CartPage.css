@@ -85,3 +85,8 @@
     font-size: 30px;
     font-weight: 600;
 }
+.cartPage .cartPage-left .btn-comeback {
+    float: left;
+    width: 20%;
+    margin-left: 20px;
+} 

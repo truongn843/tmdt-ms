@@ -8,7 +8,7 @@ fontawesome.library.add(faShoppingCart);
 const ButtonLogin = ({ handleLogin }) => {
   return (
     <div>
-      <button type="button" className="btn-outline" onClick={handleLogin}>
+      <button type="button" className="btn-outline btn-login" onClick={handleLogin}>
         Đăng nhập
       </button>
     </div>

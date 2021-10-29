@@ -10,7 +10,7 @@ const ButtonCart = () => {
   }
   return (
     <div>
-      <button type="button" className="btn-outline" onClick={handleViewCart}>
+      <button type="button" className="btn-outline btn-cart" onClick={handleViewCart}>
         <FontAwesomeIcon icon="shopping-cart"></FontAwesomeIcon>
         Giỏ hàng
       </button>

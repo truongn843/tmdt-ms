@@ -81,7 +81,7 @@ function MaKhuyenMai (props) {
                         (<div id="km-msg">{msg.msg}</div>)
                         }
                     </div>
-                ) : ("Bạn không có mã giảm giá nào.")
+                ) : ("Không có mã giảm giá nào được áp dụng.")
 
                 }
                 

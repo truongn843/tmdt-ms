@@ -57,13 +57,16 @@ function ProductCard (props) {
     const handleAddItem = e => {
         if (localStorage.getItem('email') === null)
             history.push({
-                pathname: '/login',
+                pathname: "/login",
                 state: {msg: "Trước hết bạn cần đăng nhập."}
             });
+        else {
+            setAdd({status: true});
+            setTimeout(()=>setAdd({status: false}),1500);
+            addToCart(props.id, props.title, props.price, props.imgURL);
+        }
         
-        setAdd({status: true});
-        setTimeout(()=>setAdd({status: false}),1500);
-        addToCart(props.id, props.title, props.price, props.imgURL);
+        
     }
 
     return (
@@ -82,12 +85,22 @@ function ProductCard (props) {
                             {starDisplay.list}
                         </div>
                         { discount.status === true ? (
-                            <div className="product_discounted_price">{props.discountFrom}.000₫</div>
+                            <div className="product_discounted_price">
+                                {Number(props.discountFrom).toLocaleString("vi-VN", {
+                                    style: "currency",
+                                    currency: "VND",
+                                })}
+                            </div>
                         ):(
                             <br/>
                         )}
                         { price.status === true ? (
-                            <div className="product_price">{props.price}.000₫</div>
+                            <div className="product_price">
+                                {Number(props.price).toLocaleString("vi-VN", {
+                                    style: "currency",
+                                    currency: "VND",
+                                })}
+                            </div>
                         ):(
                             <div className="product_price">Tạm hết hàng</div>
                         )}

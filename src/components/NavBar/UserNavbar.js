@@ -19,23 +19,6 @@ function UserNavbar() {
   const auth = getAuth(app);
   let email = localStorage.getItem('email');
 
-  onAuthStateChanged(auth, (user)=> {
-    if(user){
-      const verifyAdmin = async () => {
-        const db = getFirestore(app);
-        const q = query(collection(db, "users"), where("email", "==", email));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc)=>{
-          if (doc.data().type === "admin")
-            history.push("/admin");
-        })
-      }
-      verifyAdmin();
-    }
-    else
-      history.push("/");
-  });
-
   useEffect(()=>{
     const fetchData = async () => {
       const db = getFirestore(app);
