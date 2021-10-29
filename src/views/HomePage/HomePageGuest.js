@@ -37,7 +37,7 @@ function HomePageGuest() {
   document.title = "BK Phone";
   return (
     <div>
-      <GuestNavbar handleLogin={handleLogin} />
+      <GuestNavbar/>
       <ProductList />
     </div>
   );

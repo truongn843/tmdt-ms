@@ -14,7 +14,7 @@ import "../reset.css";
 import "./css/navbar.css";
 fontawesome.library.add(faSearch);
 
-function GuestNavbar({ handleLogin }) {
+function GuestNavbar() {
   let history = useHistory();
   const auth = getAuth(app);
   onAuthStateChanged(auth, (user)=> {
@@ -34,9 +34,12 @@ function GuestNavbar({ handleLogin }) {
     } 
   });
 
-  const handleBackToHome = () => {
+  const handleBackToHome = (e) => {
     history.push("/");
   };
+  const handleLogin = (e) => {
+    history.push("/login");
+  }
   return (
     <nav className="navbar nav-container">
       <Logo handlebackToHome={handleBackToHome} />
