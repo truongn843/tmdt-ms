@@ -38,7 +38,7 @@ export default function RatingStar (props) {
 
     return (
     <div>
-        {starDisplay.list}
+        {starDisplay.list} <span className="rating-value">{props.rating}</span>
     </div>
     )
 }

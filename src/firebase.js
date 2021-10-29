@@ -21,6 +21,7 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 
 function addToCart(prdId, prdName, prdPrice, prdImgURL){
+  console.log('b');
   const db = getFirestore(app);
   const cartRef = doc(db, 'carts', localStorage.getItem('userID'));
   const fetchData = async () => {

@@ -51,8 +51,7 @@ function AddProduct() {
     os: "Android",
     mobileNetwork: "4G",
     rating: "n/a",
-    ratingCount: 0,
-    description: ""
+    ratingCount: 0
   });
 
   bluetoothVers.forEach((ver, i)=>{

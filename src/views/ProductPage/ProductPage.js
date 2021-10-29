@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useHistory } from "react-router-dom";
 import GuestNavbar from "../../components/NavBar/GuestNavbar";
-import {getAuth} from "firebase/auth";
+import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {app} from "../../firebase";
 import {getFirestore, query, collection, where, getDocs, doc, getDoc}from "firebase/firestore"
 import UserNavbar from "../../components/NavBar/UserNavbar";
@@ -27,10 +27,18 @@ function ProductPage(props) {
         setNavbar({bar: (<UserNavbar/>)})
     })
   }
+
+  // onAuthStateChanged(auth, (user)=>{
+  //   if (user){}
+  //   else 
+  //     setNavbar({bar: (<GuestNavbar/>)})
+  // });
   
   useEffect(()=>{
-    try {verifyAdmin();}
-    catch (error) {setNavbar({bar: (<GuestNavbar/>)})};
+
+    if (email !== null)
+      verifyAdmin();
+    else {setNavbar({bar: (<GuestNavbar/>)})};
     try{
       setPrdID({value: props.location.state.prdID});
     } catch (error) {

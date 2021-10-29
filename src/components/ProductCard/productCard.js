@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import "./productCard.css";
-import { faCheck, faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
-import { faStar as faStarReg } from "@fortawesome/free-regular-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router";
 import addToCart  from "../../firebase.js";
 import RatingStar from "../RatingStar/RatingStar";
@@ -83,7 +82,7 @@ function ProductCard (props) {
                             {
                                 addSuccess.status === false ?
                                 (<span>Thêm vào giỏ</span>):
-                                (<FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>)
+                                (<span><FontAwesomeIcon icon={faCheck}/> Đã thêm</span>)
                             }
                         </div>                     
                     </div>                         

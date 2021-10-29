@@ -5,6 +5,7 @@
     border-radius: 10px;
     padding: 30px;
     text-align: center;
+    height: 900px;
 }
 .col-image {
     vertical-align: top;
@@ -110,4 +111,64 @@
     -moz-transition: all 150ms ease-out; 
       -o-transition: all 150ms ease-out; 
          transition: all 150ms ease-out; 
+}
+.content-specs td:nth-child(odd) {
+    width: 30%;
+    font-weight: 500;
+}
+.content-specs {
+    width: 100%;
+}
+.content-specs td,tr {
+    padding: 5px 10px 5px 10px;
+}
+.content-specs tr:nth-child(odd) {
+    background-color: white;
+}
+.content-specs tr:nth-child(even) {
+    background-color: #efefef   ;
+}
+.content-specs table {
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+}
+.content-specs .spec-category {
+    color: #142d4c;
+    padding: 15px 10px 15px 10px;
+}
+.content-rating .big-stars .star{
+    font-size: 70px;
+}
+.content-rating .big-stars {
+    margin: 10px auto 10px auto;
+    width: 100%;
+    text-align: left;
+}
+.content-rating .big-stars .rating-value {
+    font-size: 40px;
+}
+.content-rating .rating-count {
+    font-size: 30px;
+}
+.content-rating .form-rate {
+    width: 100%;
+    border: 1px solid #142d4c;
+    border-radius: 10px;
+    padding: 20px;
+}
+.content-rating .form-rate textarea {
+    width: 100%;
+    padding: 5px;
+}
+.content-rating .form-rate .rate-field {
+    font-size: 20px;
+}
+.content-rating .form-rate .radio-fake {
+    margin: 0px 10px 0px 5px;
+    padding: 0;
+}
+.content-rating .form-rate .star {
+    margin-bottom: 5px;
+    font-size: 20px;
 }
