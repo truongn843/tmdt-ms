@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import "./RatingStar.css";
-import { faCheck, faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarReg } from "@fortawesome/free-regular-svg-icons";
 
 export default function RatingStar (props) {
@@ -17,7 +17,7 @@ export default function RatingStar (props) {
                     (<div className="star"><FontAwesomeIcon icon={faStar}/></div>)
                 ]
             }));
-        if ((Math.ceil(rating) !== Math.floor(rating)) && (Math.round(5 - rating) === Math.floor(5 - rating))){
+        if (5 - Math.floor(rating) - Math.floor(5 - rating) > 0){
             remainingStar--;
             setSD(prev=>({
                 list: [

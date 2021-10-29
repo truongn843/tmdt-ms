@@ -1,15 +1,21 @@
 .user-container {
-  width: 64rem;
+  width: 80%;
   background-color: #ececec;
   padding: 2rem;
   margin: 0 auto;
   border-radius: 10px;
 }
 .user-content {
-  margin: 2rem auto;
-  width: 64rem;
+  width: auto;
   font-size: 1.5rem;
   font-weight: 700;
+  display: inline-block;
+  border: 1px solid black;
+  padding: 10px;
+  margin: 10px 10px 10px 0px;
+}
+.user-content:hover {
+  cursor: pointer;
 }
 .form-check .form-check-input {
   margin-left: -0.75em;
@@ -65,4 +71,11 @@
 }
 .avatar-image {
   width: 100%;
+}
+
+.container .tab-group {
+  margin: 0px auto 0px auto;
+  padding-bottom: 0px;
+  width: 80%;
+  border: 1px solid black;
 }

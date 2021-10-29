@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from "react";
 import { useHistory } from "react-router-dom";
 import GuestNavbar from "../../components/NavBar/GuestNavbar";
-import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {app} from "../../firebase";
-import {getFirestore, query, collection, where, getDocs, doc, getDoc}from "firebase/firestore"
+import {getFirestore, doc, getDoc}from "firebase/firestore"
 import UserNavbar from "../../components/NavBar/UserNavbar";
 import AdminNavbar from "../../components/NavBar/AdminNavbar";
 import ProductDetail from "../../components/ProductDetail/ProductDetail";
@@ -11,32 +10,25 @@ import ProductDetail from "../../components/ProductDetail/ProductDetail";
 function ProductPage(props) {
   const [navbar, setNavbar] = useState({bar: null});
   const [prdID, setPrdID] = useState({value: null});
-  const auth = getAuth(app);
-  const email = localStorage.getItem('email');
+  const userID = localStorage.getItem('userID');
   let history = useHistory();
 
 
   const db = getFirestore(app);
   const verifyAdmin = async () => {
-    const q = query(collection(db, "users"), where("email", "==", email));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc)=>{
-      if (doc.data().type === "admin")
+    const userRef = doc(db, 'users', userID);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()){
+      if (userSnap.data().type === "admin")
         setNavbar({bar: (<AdminNavbar/>)})
       else 
         setNavbar({bar: (<UserNavbar/>)})
-    })
+    }
   }
-
-  // onAuthStateChanged(auth, (user)=>{
-  //   if (user){}
-  //   else 
-  //     setNavbar({bar: (<GuestNavbar/>)})
-  // });
   
   useEffect(()=>{
 
-    if (email !== null)
+    if (userID)
       verifyAdmin();
     else {setNavbar({bar: (<GuestNavbar/>)})};
     try{

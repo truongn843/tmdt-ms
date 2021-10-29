@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import Card from "../../components/Card/Card";
 import Address from "../../components/CardContent/Address";
 import DonHang from "../../components/CardContent/DonHang";
 import MaKhuyenMai from "../../components/CardContent/MaKhuyenMai";
@@ -13,8 +12,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCreditCard, faChevronLeft, faMotorcycle, faRunning} from "@fortawesome/free-solid-svg-icons"
 import { useHistory } from "react-router";
 import {app} from "../../firebase";
-import {getFirestore, query, collection, where, getDocs, doc, getDoc, setDoc, deleteDoc}from "firebase/firestore";
-import {onAuthStateChanged, getAuth, signOut} from "firebase/auth";
+import {getFirestore, doc, getDoc, setDoc, deleteDoc}from "firebase/firestore";
+import {onAuthStateChanged, getAuth} from "firebase/auth";
 
 import "./PaymentPage.css";
 
@@ -33,19 +32,10 @@ export default function PaymentPage (props) {
   });
   
   const auth = getAuth(app);
-  let email = localStorage.getItem('email');
+  let userID = localStorage.getItem('userID');
+
   onAuthStateChanged(auth, (user)=>{
-    if (user){
-      if (email !== user.email){
-        signOut(auth).then(() => {
-          console.log("Sign out successfully.");
-        }).catch((error) => {
-        });
-        localStorage.removeItem('email');
-        localStorage.removeItem('userID');
-        history.push("/login");
-      }
-    }
+    if (user){}
     else 
       history.push({
         pathname: '/login',
@@ -69,20 +59,20 @@ export default function PaymentPage (props) {
   
   const db = getFirestore(app);
   const verifyAdmin = async () => {
-    const q = query(collection(db, "users"), where("email", "==", email));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc)=>{
-      if (doc.data().type === "admin")
-        setNavbar({bar: (<AdminNavbar/>)});
+    const userRef = doc(db, 'users', userID);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()){
+      if (userSnap.data().type === "admin")
+        setNavbar({bar: (<AdminNavbar/>)})
       else 
-        setNavbar({bar: (<UserNavbar/>)});
-      setUserInfo({...userInfo, name: doc.data().fullname, address: doc.data().address, phone: doc.data().phone});
-    })
+        setNavbar({bar: (<UserNavbar/>)})
+    }
+    setUserInfo({...userInfo, name: userSnap.data().fullname, address: userSnap.data().address, phone: userSnap.data().phone});
   }
 
   const addOrder = async (orderID) => {
     let newOrder = {
-      email: email,
+      userID: userID,
       dateCreated: new Date(),
       name: userInfo.name,
       phone: userInfo.phone,
@@ -103,7 +93,7 @@ export default function PaymentPage (props) {
   }
 
   useEffect(() => {
-    verifyAdmin();
+    if (userID) verifyAdmin();
     try {
       if (props.location.state.estimated !== 0)
         setCartInfo({

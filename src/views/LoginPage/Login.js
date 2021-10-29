@@ -6,7 +6,7 @@ import { useHistory } from "react-router";
 import banner from "../../assert/banner.png";
 import { app } from "../../firebase";
 import { getAuth, signInWithEmailAndPassword, setPersistence, browserSessionPersistence, onAuthStateChanged } from "firebase/auth";
-import { collection, query, where, getDocs, getFirestore } from "firebase/firestore";
+import { collection, query, where, getDocs, getFirestore, doc, getDoc } from "firebase/firestore";
 
 import "../../components/reset.css";
 import "./login.css";
@@ -17,22 +17,20 @@ function Login(props) {
   const [error, setError] = useState({ status: false, message: "" });
   let history = useHistory();
   const auth = getAuth(app);
-  let email = localStorage.getItem('email');
+  const userID = localStorage.getItem('userID');
 
   onAuthStateChanged(auth, (user)=> {
-    if(user && email !== null){
+    if(user && userID !== null){
       const verifyAdmin = async () => {
         const db = getFirestore(app);
-        const q = query(collection(db, "users"), where("email", "==", email));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc)=>{
-          if (doc.data().type === "admin")
-            history.push("/admin");
-          else 
-            history.push("/user");
-        })
+        const userRef = doc(db, 'users', userID);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.data().type === "admin")
+          history.push("/admin");
+        else 
+          history.push("/user");
       }
-      verifyAdmin();
+      if (userID) verifyAdmin();
     }
   });
 
@@ -50,8 +48,6 @@ function Login(props) {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        // ...
-        localStorage.setItem('email', user.email);
         const forward = async () => {
           const db = getFirestore(app);
           const q = query(collection(db, "users"), where("email", "==", user.email));

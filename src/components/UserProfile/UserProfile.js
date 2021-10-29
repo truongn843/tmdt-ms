@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {app} from "../../firebase";
 import "./user-profile.css";
-import { collection, query, where, getDocs, getFirestore, setDoc, doc } from "firebase/firestore";
+import { collection, query, where, getDocs, getFirestore, setDoc, doc, getDoc } from "firebase/firestore";
 import { getAuth, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 import { useHistory } from "react-router";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -14,8 +14,9 @@ function UserProfile(props) {
   const [msg2, setMsg2] = useState({ status: false, message: "" });
   const [pwd, setPwd] = useState({ currPwd: "", newPwd: "", newPwdRp: ""});
   const [img, setImg] = useState({selectedFile: null, imgURL: ""});
+  const [email, setEmail] = useState({value: null});
   let history = useHistory();
-  let email = localStorage.getItem('email');
+  const userID = localStorage.getItem('userID');
   const [user, setUser] = useState({
     email: "",
     fullname: "",
@@ -32,25 +33,24 @@ function UserProfile(props) {
     const fetchData = async () => {
       const db = getFirestore(app);
       const storage = getStorage(app);
-      const q = query(collection(db, "users"), where("email", "==", email));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc)=>{
-        setUser({
-          email: doc.data().email,
-          fullname: doc.data().fullname,
-          phone: doc.data().phone,
-          address: doc.data().address,
-          gender: doc.data().gender,
-          dateOfBirth: doc.data().dateOfBirth,
-          avatar: doc.data().avatar
+      const userRef = doc(db, 'users', userID);
+      const userSnap = await getDoc(userRef);
+      setUser({
+        email: userSnap.data().email,
+        fullname: userSnap.data().fullname,
+        phone: userSnap.data().phone,
+        address: userSnap.data().address,
+        gender: userSnap.data().gender,
+        dateOfBirth: userSnap.data().dateOfBirth,
+        avatar: userSnap.data().avatar
+      });
+      setEmail({value: userSnap.data().email})
+      if (userSnap.data().avatar)
+        getDownloadURL(ref(storage, 'user-avatar/' + userID)).then((url)=>{
+          setImg({...img, imgURL: url});
         });
-        if (doc.data().avatar)
-          getDownloadURL(ref(storage, 'user-avatar/' + doc.id)).then((url)=>{
-            setImg({...img, imgURL: url});
-          });
-      })
     }
-    fetchData();
+    if (userID) fetchData();
     try {
       setMsg({status: true, message: history.location.state.msg});
       window.scrollTo(0,100);
@@ -64,24 +64,22 @@ function UserProfile(props) {
     const fetchData = async () => {
       const db = getFirestore(app);
       const storage = getStorage(app);
-      const q = query(collection(db, "users"), where("email", "==", email));
-      const querySnapshot = await getDocs(q);
-      let id;
-      let data;
-      querySnapshot.forEach((doc)=>{id = doc.id; data = doc.data();})
-      data.fullname = user.fullname;
-      data.phone = user.phone;
-      data.gender = user.gender;
-      data.dateOfBirth = user.dateOfBirth;
-      data.address = user.address;
+      const userRef = doc(db, 'users', userID);
+      const userSnap = await getDoc(userRef);
+      let cloneData = JSON.parse(JSON.stringify(userSnap.data()));;
+      cloneData.fullname = user.fullname;
+      cloneData.phone = user.phone;
+      cloneData.gender = user.gender;
+      cloneData.dateOfBirth = user.dateOfBirth;
+      cloneData.address = user.address;
       if (user.avatar === true)
-        data.avatar = true;
-      await setDoc(doc(db, 'users', id), data);
+        cloneData.avatar = true;
+      await setDoc(doc(db, 'users', userID), cloneData);
       if (user.avatar === true && img.selectedFile != null) { 
-        uploadBytes(ref(storage, 'user-avatar/' + id), img.selectedFile);
+        uploadBytes(ref(storage, 'user-avatar/' + userID), img.selectedFile);
       }
     }
-    fetchData();
+    if (userID) fetchData();
     setMsg({status: true, message: "Cập nhật thông tin thành công."});
     window.scrollTo(0,100);
   }
@@ -102,7 +100,7 @@ function UserProfile(props) {
       return;
     }
 
-    let credential = EmailAuthProvider.credential(email, pwd.currPwd);
+    let credential = EmailAuthProvider.credential(email.value, pwd.currPwd);
     reauthenticateWithCredential(auth.currentUser, credential).then(()=>{
       updatePassword(auth.currentUser, pwd.newPwd).then(()=>{
         setMsg2({status: true, message: "Đổi mật khẩu thành công."});
@@ -120,7 +118,11 @@ function UserProfile(props) {
   }
   return (
     <div className="container">
-      <div className="user-content">Thông tin tài khoản</div>
+      <div className="tab-group">
+        <div className="user-content">Thông tin tài khoản</div>
+        <div className="user-content">Đổi mật khẩu</div>
+        <div className="user-content">Đơn hàng</div>
+      </div>  
       <div className="user-container">
           {msg.status === true && (
             <div className="alert">
@@ -162,8 +164,6 @@ function UserProfile(props) {
                   onChange={handleAvt}
                 />
               </div>
-              
-              
             </div>
           </div>
           <div className="mb-3 row">

@@ -31,7 +31,7 @@ function ProductCard (props) {
     }
 
     const handleAddItem = e => {
-        if (localStorage.getItem('email') === null)
+        if (localStorage.getItem('userID') === null)
             history.push({
                 pathname: "/login",
                 state: {msg: "Trước hết bạn cần đăng nhập."}

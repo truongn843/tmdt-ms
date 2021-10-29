@@ -12,7 +12,6 @@ import { useHistory } from "react-router";
 export default function ProductDetail (props) {
     let history = useHistory();
     const userID = localStorage.getItem('userID');
-    const email = localStorage.getItem('email');
     const db = getFirestore(app);
     const [userReview, setUserReview] = useState({star: 1, review: "", alreadyReview: false});
     const [addSuccess, setAdd] = useState({status: false});
@@ -92,11 +91,11 @@ export default function ProductDetail (props) {
                 setUserReview({...userReview, alreadyReview: true});
             })
         }
-        checkReview();
+        if (userID) checkReview();
     },[])
 
     const handleBuyNow = e => {
-        if (localStorage.getItem('email') !== null){
+        if (localStorage.getItem('userID') !== null){
             addToCart(props.id, product.title, product.price, prdImage.url);
             history.push("/cart");
         }    
@@ -109,7 +108,7 @@ export default function ProductDetail (props) {
     }
 
     const handleAddToCart = e => {
-        if (localStorage.getItem('email') !== null){
+        if (localStorage.getItem('userID') !== null){
             setAdd({status: true});
             setTimeout(()=>setAdd({status: false}),1500);
             addToCart(props.id, product.title, product.price, prdImage.url);
@@ -124,32 +123,32 @@ export default function ProductDetail (props) {
 
     const sendReview = e => {
         e.preventDefault();
-        console.log(userReview);
-        let review = {
-            userID: userID,
-            email: email,
-            rating: userReview.star,
-            review: userReview.review,
-            productID: props.id,
-            date: new Date()
+        if (userID) {
+            let review = {
+                userID: userID,
+                rating: userReview.star,
+                review: userReview.review,
+                productID: props.id,
+                date: new Date()
+            }
+            let oldRating = parseFloat(product.rating);
+            let oldRatingCount = parseFloat(product.ratingCount);
+            let newRating = ((oldRating * oldRatingCount + review.rating) / (oldRatingCount + 1)).toFixed(1);
+            const addReview = async () => {
+                await addDoc(collection(db, "reviews"), review);
+                const prdRef = doc(db, 'products', props.id);
+                const prdSnap = await getDoc(prdRef);
+                let cloneData = JSON.parse(JSON.stringify(prdSnap.data()));
+                cloneData.ratingCount = oldRatingCount + 1;
+                cloneData.rating = newRating;
+                await setDoc(prdRef, cloneData).then(()=>{
+                    setTab({value: 3});
+                    window.location.reload();
+                });
+            }
+            if (!userReview.alreadyReview)
+                addReview();
         }
-        let oldRating = parseFloat(product.rating);
-        let oldRatingCount = parseFloat(product.ratingCount);
-        let newRating = ((oldRating * oldRatingCount + review.rating) / (oldRatingCount + 1)).toFixed(1);
-        const addReview = async () => {
-            await addDoc(collection(db, "reviews"), review);
-            const prdRef = doc(db, 'products', props.id);
-            const prdSnap = await getDoc(prdRef);
-            let cloneData = JSON.parse(JSON.stringify(prdSnap.data()));
-            cloneData.ratingCount = oldRatingCount + 1;
-            cloneData.rating = newRating;
-            await setDoc(prdRef, cloneData).then(()=>{
-                setTab({value: 3});
-                window.location.reload();
-            });
-        }
-        if (!userReview.alreadyReview)
-            addReview();
     }
 
     return (
@@ -306,17 +305,17 @@ export default function ProductDetail (props) {
                         <RatingStar rating={product.rating}/>
                         <div className="rating-count">Sản phẩm đã được đánh giá {product.ratingCount} lần.</div>
                     </div>
-                    {   localStorage.getItem('email') === null && 
+                    {   localStorage.getItem('userID') === null && 
                     <div className="rating-count">
                         Hãy <strong>đăng nhập</strong> để gửi đánh giá.
                     </div> 
                     }
-                    {   localStorage.getItem('email') !== null && userReview.alreadyReview &&
+                    {   localStorage.getItem('userID') !== null && userReview.alreadyReview &&
                     <div className="rating-count">
                         Bạn đã đánh giá sản phẩm này rồi.
                     </div> 
                     }
-                    {   localStorage.getItem('email') !== null && !userReview.alreadyReview &&
+                    {   localStorage.getItem('userID') !== null && !userReview.alreadyReview &&
                     <form className="form-rate">
                         <div className="rating-count">Đánh giá sản phẩm</div><hr/>
                         <label className="rate-field">Thang đánh giá:</label>

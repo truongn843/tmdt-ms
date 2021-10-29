@@ -4,8 +4,10 @@ import { FaTrashAlt } from "react-icons/fa";
 import { IoAddCircleOutline, IoRemoveCircleOutline } from "react-icons/io5";
 import { getFirestore, doc, getDoc, setDoc } from "@firebase/firestore";
 import { app } from "../../firebase"
+import { useHistory } from "react-router";
 
 export default function CartItem(props) {
+  const history = useHistory();
   const db = getFirestore(app);
   const cartRef = doc(db, 'carts', localStorage.getItem('userID'));
 
@@ -62,9 +64,17 @@ export default function CartItem(props) {
     }
     dec();
   }
+
+  const handleDetail = e => {
+    history.push({
+      pathname: "/product-detail",
+      state: {prdID: props.id}
+    })
+  }
+
   return (
     <div className="cartItemcontainer">
-      <div className="cartItem">
+      <div className="cartItem" onClick={handleDetail}>
         <img src={props.imgURL} alt="" />
         {props.name}
       </div>

@@ -23,7 +23,7 @@ function CartPage() {
 
   let history = useHistory();
   const auth = getAuth(app);
-  const email = localStorage.getItem('email');
+  const userID = localStorage.getItem('userID');
 
   onAuthStateChanged(auth, (user)=> {
     if(user);
@@ -37,19 +37,17 @@ function CartPage() {
   useEffect(() => {
     const db = getFirestore(app);
     const verifyAdmin = async () => {
-      const q = query(collection(db, "users"), where("email", "==", email));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc)=>{
-        if (doc.data().type === "admin")
-          setNavbar({bar: (<AdminNavbar/>)})
-        else 
-          setNavbar({bar: (<UserNavbar/>)})
-        setName({value: doc.data().fullname});
-        setAddress({value: doc.data().address});
-        setPhone({value: doc.data().phone});
-      })
+      const userRef = doc(db, 'users', userID);
+      const userSnap = await getDoc(userRef);
+      if (userSnap.data().type === "admin")
+        setNavbar({bar: (<AdminNavbar/>)})
+      else 
+        setNavbar({bar: (<UserNavbar/>)})
+      setName({value: userSnap.data().fullname});
+      setAddress({value: userSnap.data().address});
+      setPhone({value: userSnap.data().phone});
     }
-    if (email !== null) verifyAdmin();
+    if (userID !== null) verifyAdmin();
     const loadVoucher = async () => {
       const cartRef = doc(db, 'carts', localStorage.getItem('userID'));
       const cartSnap = await getDoc(cartRef);
@@ -93,7 +91,7 @@ function CartPage() {
         }))
       });
     }
-    if (email !== null) loadCartData();
+    if (userID !== null) loadCartData();
   }, [])
 
   const handlePayment = () => {

@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router";
 import { app } from "../../firebase";
-import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { getFirestore, collection, query, where, getDocs } from "firebase/firestore"
+import { getFirestore, doc, getDoc } from "firebase/firestore"
 
 import ButtonCart from "../Button/ButtonCart";
 import avatar from "../../assert/avatar.png";
@@ -15,24 +15,24 @@ import Logo from "./Logo/Logo";
 
 function UserNavbar() {
   const [img, setImg] = useState({avatar: false, imgURL: ""});
+  const [email, setEmail] = useState({value: null});
   let history = useHistory();
   const auth = getAuth(app);
-  let email = localStorage.getItem('email');
+  const userID = localStorage.getItem('userID');
 
   useEffect(()=>{
     const fetchData = async () => {
       const db = getFirestore(app);
       const storage = getStorage(app);
-      const q = query(collection(db, "users"), where("email", "==", email));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc)=>{
-        if (doc.data().avatar)
-          getDownloadURL(ref(storage, 'user-avatar/' + doc.id)).then((url)=>{
-            setImg({avatar: true, imgURL: url});
-          });
-      })
+      const userRef = doc(db, 'users', userID);
+      const userSnap = await getDoc(userRef);
+      setEmail({value: userSnap.data().email});
+      if (userSnap.data().avatar)
+        getDownloadURL(ref(storage, 'user-avatar/' + userID)).then((url)=>{
+          setImg({avatar: true, imgURL: url});
+        });
     }
-    fetchData();
+    if (userID) fetchData();
   }, []);
 
   const handleBackToHome = () => {
@@ -43,7 +43,6 @@ function UserNavbar() {
       console.log("Sign out successfully.");
     }).catch((error) => {
     });
-    localStorage.removeItem('email');
     localStorage.removeItem('userID');
     history.push("/");
   };
@@ -67,7 +66,7 @@ function UserNavbar() {
       </div>
       <div className="btn-group">
         <ButtonCart handleViewCart={handleViewCart} />
-        <div className="email-label" onClick={handleViewProfile}>{email}</div>
+        <div className="email-label" onClick={handleViewProfile}>{email.value}</div>
         <div className="btn user-ava" onClick={handleViewProfile}>
           {img.avatar === true ? (
                 <img

@@ -4,27 +4,25 @@ import Navbar from "../../components/NavBar/AdminNavbar";
 import ProductList from "../../components/ProductList/ProductList";
 import { app } from "../../firebase";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, collection, query, where, getDocs } from "firebase/firestore"
+import { getFirestore, collection, query, where, getDocs, doc, getDoc } from "firebase/firestore"
 
 import "./homepage.css";
 
 function HomePageGuest() {
   let history = useHistory();
   const auth = getAuth(app);
-  let email = localStorage.getItem('email');
+  const userID = localStorage.getItem('userID');
 
   onAuthStateChanged(auth, (user)=> {
     if(user){
       const verifyAdmin = async () => {
         const db = getFirestore(app);
-        const q = query(collection(db, "users"), where("email", "==", email));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc)=>{
-          if (doc.data().type === "user")
+        const userRef = doc(db, 'users', userID);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.data().type === "user")
             history.push("/user");
-        })
       }
-      verifyAdmin();
+      if (userID) verifyAdmin();
     }
     else
       history.push("/");

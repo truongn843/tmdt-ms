@@ -46,7 +46,7 @@ function addToCart(prdId, prdName, prdPrice, prdImgURL){
     {
       console.log("Create user's cart...");
       await setDoc(cartRef, {
-        email: localStorage.getItem('email'),
+        userID: localStorage.getItem('userID'),
         voucher: "",
         cartItems: [
           {id: prdId, quantity: 1, price: prdPrice, name: prdName, imgURL: prdImgURL}

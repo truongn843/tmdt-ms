@@ -2,8 +2,8 @@ import React, {useState, useEffect} from "react";
 import "./OrderPage.css";
 import { useHistory } from "react-router";
 import {app} from "../../firebase";
-import {getFirestore, query, collection, where, getDocs, doc, getDoc}from "firebase/firestore";
-import {onAuthStateChanged, getAuth, signOut} from "firebase/auth";
+import {getFirestore, doc, getDoc}from "firebase/firestore";
+import {onAuthStateChanged, getAuth} from "firebase/auth";
 import UserNavbar from "../../components/NavBar/UserNavbar";
 import AdminNavbar from "../../components/NavBar/AdminNavbar";
 
@@ -13,21 +13,10 @@ export default function OrderPage (props) {
     const [status, setStatus] = useState({value: "accepted", orderID: null, amount: null});
 
     const auth = getAuth(app);
-    let email = localStorage.getItem('email');
+    const userID = localStorage.getItem('userID');
 
     onAuthStateChanged(auth, (user)=>{
-      if (user){
-        if (email !== user.email){
-          signOut(auth).then(() => {
-            console.log("Sign out successfully.");
-          }).catch((error) => {
-          });
-          localStorage.removeItem('email');
-          localStorage.removeItem('userID');
-          history.push("/login");
-        }
-        console.log('checking');
-      }
+      if (user){}
       else 
         history.push({
           pathname: '/login',
@@ -37,15 +26,14 @@ export default function OrderPage (props) {
 
     const db = getFirestore(app);
     const verifyAdmin = async () => {
-      console.log('a');
-      const q = query(collection(db, "users"), where("email", "==", email));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc)=>{
-        if (doc.data().type === "admin")
-          setNavbar({bar: (<AdminNavbar/>)});
+      const userRef = doc(db, 'users', userID);
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()){
+        if (userSnap.data().type === "admin")
+          setNavbar({bar: (<AdminNavbar/>)})
         else 
-          setNavbar({bar: (<UserNavbar/>)});
-      })
+          setNavbar({bar: (<UserNavbar/>)})
+      }
     }
 
     useEffect(() => {
@@ -58,7 +46,7 @@ export default function OrderPage (props) {
       } catch (error) {
         history.push("/");
       };
-      verifyAdmin();
+      if (userID) verifyAdmin();
     }, []);
 
     const backToHome = e => {

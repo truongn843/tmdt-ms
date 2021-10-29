@@ -4,26 +4,24 @@ import AddProduct from "../../components/AddProduct/AddProduct";
 import { useHistory } from "react-router";
 import { app } from "../../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, collection, query, where, getDocs } from "firebase/firestore"
+import { getFirestore, doc, getDoc } from "firebase/firestore"
 
 function AddProductPage() {
 
   let history = useHistory();
   const auth = getAuth(app);
-  let email = localStorage.getItem('email');
+  const userID = localStorage.getItem('userID');
 
   onAuthStateChanged(auth, (user)=> {
     if(user){
       const verifyAdmin = async () => {
         const db = getFirestore(app);
-        const q = query(collection(db, "users"), where("email", "==", email));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc)=>{
-          if (doc.data().type !== "admin")
-            history.push("/user");
-        })
+        const userRef = doc(db, 'users', userID);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.data().type !== "admin")
+          history.push("/user");
       }
-      verifyAdmin();
+      if (userID) verifyAdmin();
     }
     else
       history.push("/");
