@@ -26,6 +26,7 @@ function HomePageGuest() {
       }
       if (userID) verifyAdmin();
     }
+    else localStorage.clear();
   });
 
   document.title = "BK Phone";

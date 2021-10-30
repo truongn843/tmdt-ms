@@ -6,12 +6,20 @@ import {getFirestore, doc, getDoc}from "firebase/firestore"
 import UserNavbar from "../../components/NavBar/UserNavbar";
 import AdminNavbar from "../../components/NavBar/AdminNavbar";
 import ProductDetail from "../../components/ProductDetail/ProductDetail";
+import {onAuthStateChanged, getAuth} from "firebase/auth";
 
 function ProductPage(props) {
   const [navbar, setNavbar] = useState({bar: null});
   const [prdID, setPrdID] = useState({value: null});
   const userID = localStorage.getItem('userID');
   let history = useHistory();
+  const auth = getAuth(app);
+
+  onAuthStateChanged(auth, (user)=>{
+    if (user){}
+    else 
+      localStorage.clear();
+  });
 
 
   const db = getFirestore(app);

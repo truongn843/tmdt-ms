@@ -24,8 +24,11 @@ function HomePageGuest() {
       }
       if (userID) verifyAdmin();
     }
-    else
+    else{
       history.push("/");
+      localStorage.clear();
+    }
+      
   });
 
   const handleLogout = () => {

@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import {app} from "../../firebase";
 import "./user-profile.css";
-import { collection, query, where, getDocs, getFirestore, setDoc, doc, getDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, getFirestore, setDoc, doc, getDoc, orderBy, Timestamp } from "firebase/firestore";
 import { getAuth, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 import { useHistory } from "react-router";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimesCircle } from "@fortawesome/free-regular-svg-icons"
 import userAvt from "../../assert/avatar.png";
 
 const auth = getAuth(app);
 
 function UserProfile(props) {
+  const [alert, setAlert] = useState({status: false, currentOrderID: null});
   const [msg, setMsg] = useState({ status: false, message: "" });
   const [msg2, setMsg2] = useState({ status: false, message: "" });
   const [pwd, setPwd] = useState({ currPwd: "", newPwd: "", newPwdRp: ""});
@@ -18,6 +21,7 @@ function UserProfile(props) {
   const [tab, setTab] = useState({value: 1});
   let history = useHistory();
   const userID = localStorage.getItem('userID');
+  const [orderList, setOrderList] = useState({list: []});
   const [user, setUser] = useState({
     email: "",
     fullname: "",
@@ -51,14 +55,75 @@ function UserProfile(props) {
           setImg({...img, imgURL: url});
         });
     }
-    if (userID) fetchData();
+    if (userID) {
+      fetchData();
+      loadOrders();
+    }
     try {
       setMsg({status: true, message: history.location.state.msg});
       window.scrollTo(0,100);
     } catch (error) {
-      console.log(error);
     };
   }, []);
+
+  const loadOrders = async () => {
+    const db = getFirestore(app);
+    const q = query(collection(db, "orders"), where("userID","==",userID), orderBy("dateCreated", 'desc'));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc)=>{
+      console.log(doc.data());
+      let numOrders = doc.data().items.length;
+      let dvvc = "";
+      let status = "";
+      let orderedDate = doc.data().dateCreated.toDate();
+      orderedDate = orderedDate.getDate() + '-' + (orderedDate.getMonth() + 1) + '-' + orderedDate.getFullYear()
+                    + ' ' + orderedDate.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'});
+      switch(doc.data().shippingService){
+        case "direct": dvvc = "Nhận tại quầy"; break;
+        case "grab": dvvc = "Grab"; break;
+        case "ghn": dvvc = "Giao hàng nhanh"; break;
+        default:;
+      }
+      switch(doc.data().status){
+        case "accept": status = "Đã tiếp nhận"; break;
+        case "waitingForPayment": status = "Chờ thanh toán"; break;
+        case "onDelivery": status = "Đang vận chuyển"; break;
+        case "complete": status = "Đã giao hàng"; break;
+        case "cancel": status = "Đã huỷ đơn"; break;
+        default:;
+      }
+      for (let i = 0; i < numOrders; i++){
+        if (i === 0)
+          setOrderList(prev=>({
+            list: [...prev.list, (<tr>
+              <td rowSpan={numOrders}>{doc.id}</td>
+              <td>{doc.data().items[i].name}</td>
+              <td>{doc.data().items[i].quantity}</td>
+              <td rowSpan={numOrders}>{dvvc}</td>
+              <td rowSpan={numOrders}>{orderedDate}</td>
+              <td rowSpan={numOrders}>{status}</td>
+              <td rowSpan={numOrders} style={{color: "red"}}>{Number(doc.data().amount).toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              })}</td>
+              { (doc.data().status === "accept" || doc.data().status === "waitingForPayment" ) ? (
+                <td rowSpan={numOrders} className="btn-cancel-order" onClick={e=>setAlert({status: true, currentOrderID: doc.id})}>
+                  <FontAwesomeIcon icon={faTimesCircle}/>
+                </td>
+              ) : (<td rowSpan={numOrders}></td>)}
+              
+            </tr>)]
+          }))
+        else 
+        setOrderList(prev=>({
+          list: [...prev.list, (<tr>
+            <td>{doc.data().items[i].name}</td>
+            <td>{doc.data().items[i].quantity}</td>
+          </tr>)]
+        }))
+      }
+    })
+  }
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -117,23 +182,44 @@ function UserProfile(props) {
       setMsg2({status: true, message: "Mật khẩu hiện tại không chính xác. Vui lòng thử lại."});
     })
   }
+
+  const cancelOrder = e =>{
+
+    const changeStatus = async () => {
+      const db = getFirestore(app);
+      const orderRef = doc(db, "orders", alert.currentOrderID);
+      const orderSnap = await getDoc(orderRef);
+      let cloneData = JSON.parse(JSON.stringify(orderSnap.data()));;
+      cloneData.status = "cancel";
+      cloneData.dateCreated = orderSnap.data().dateCreated.toDate();
+      await setDoc(orderRef, cloneData).then(()=>{
+        window.location.reload(window.scrollY);
+      });
+    }
+    if (alert.currentOrderID !== null) changeStatus();
+  }
+
+  const closeAlert = e => {
+    setAlert({...alert, status: false});
+  }
+
   return (
     <div className="container">
       <div className="tab-group">
         <div className={"user-content " + (tab.value === 1 ? 'active' : '')} onClick={()=>setTab({value:1})}>
-          Thông tin tài khoản
+          Cập nhật thông tin
         </div>
         <div className={"user-content " + (tab.value === 2 ? 'active' : '')} onClick={()=>setTab({value:2})}>
           Đổi mật khẩu
         </div>
         <div className={"user-content " + (tab.value === 3 ? 'active' : '')} onClick={()=>setTab({value:3})}>
-          Đơn hàng
+          Đơn hàng của bạn
         </div>
       </div> 
       { tab.value === 1 &&
 
       
-      <div className="user-container">
+      <div className="user-container large-padding">
           {msg.status === true && (
             <div className="alert">
               <span className="closebtn" onClick={closeMsg}>&times;</span> 
@@ -268,7 +354,7 @@ function UserProfile(props) {
       }
       { tab.value === 2 &&
 
-      <div className="user-container">
+      <div className="user-container large-padding">
           {msg2.status === true && (
             <div className="alert">
               <span className="closebtn" onClick={closeMsg2}>&times;</span> 
@@ -324,6 +410,34 @@ function UserProfile(props) {
         </form>
       </div>
       }
+      { tab.value === 3 &&
+      <div className="user-container">
+        <table className="user-orders-table">
+          <tbody>
+            <tr>
+              <th style={{width: "10%"}}>Đơn hàng</th>
+              <th style={{width: "38%"}}>Tên mặt hàng</th>
+              <th style={{width: "7%"}}>Số lượng</th>
+              <th style={{width: "10%"}}>DVVC</th>
+              <th style={{width: "10%"}}>Ngày lên đơn</th>
+              <th style={{width: "10%"}}>Trạng thái</th>
+              <th style={{width: "10%"}}>Tổng tiền</th>
+              <th style={{width: "5%"}}></th>
+            </tr>
+            {orderList.list}
+          </tbody>
+        </table>
+        <i>DVVC: Dịch vụ vận chuyển</i>
+      </div>
+      }
+      { alert.status === true && 
+        <div className="alert-box">
+          <strong>Bạn có chắc muốn hủy đơn hàng?</strong><hr/>
+          <div className="btn-confirm" onClick={closeAlert}>Không</div>
+          <div className="btn-confirm" onClick={cancelOrder}>Đồng ý</div>
+        </div>
+      }
+      
     </div>
   );
 }

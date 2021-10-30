@@ -32,6 +32,9 @@ function Login(props) {
       }
       if (userID) verifyAdmin();
     }
+    else {
+      localStorage.clear();
+    }
   });
 
   const submitHandler = (e) => {

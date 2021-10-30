@@ -23,8 +23,11 @@ function HomePageUser() {
       }
       if (userID) verifyAdmin();
     }
-    else
+    else{
+      localStorage.clear();
       history.push("/");
+    }
+      
   });
 
   document.title = "BK Phone";

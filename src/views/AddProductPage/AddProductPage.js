@@ -24,7 +24,7 @@ function AddProductPage() {
       if (userID) verifyAdmin();
     }
     else
-      history.push("/");
+      localStorage.clear();
   });
 
   return (

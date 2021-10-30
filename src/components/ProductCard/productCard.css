@@ -473,6 +473,8 @@ div.shadow{
 	transform: rotate(135deg);		
 }
 .img-container:hover{
+	position: absolute;
+	top: -5px;
 	cursor: pointer;
 	opacity: 0.7;
 	-webkit-transition: all 200ms ease-out; 

@@ -12,8 +12,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCreditCard, faChevronLeft, faMotorcycle, faRunning} from "@fortawesome/free-solid-svg-icons"
 import { useHistory } from "react-router";
 import {app} from "../../firebase";
-import {getFirestore, doc, getDoc, setDoc, deleteDoc}from "firebase/firestore";
 import {onAuthStateChanged, getAuth} from "firebase/auth";
+import {getFirestore, doc, getDoc, setDoc, deleteDoc}from "firebase/firestore";
+
 
 import "./PaymentPage.css";
 
@@ -36,11 +37,14 @@ export default function PaymentPage (props) {
 
   onAuthStateChanged(auth, (user)=>{
     if (user){}
-    else 
+    else {
       history.push({
         pathname: '/login',
         state: {msg: "Trước hết bạn cần đăng nhập."}
       });
+      localStorage.clear();
+    }
+      
   });
 
   const genOrderID = () => {
@@ -78,7 +82,7 @@ export default function PaymentPage (props) {
       phone: userInfo.phone,
       address: userInfo.address,
       amount: cartInfo.estimated - cartInfo.voucherDiscount,
-      status: "accepted",
+      status: paymentInfo.method === "cod" ? "accept" : "waitingForPayment",
       paymentMethod: paymentInfo.method,
       shippingService: paymentInfo.shipping,
       items: []

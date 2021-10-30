@@ -29,6 +29,7 @@ function SignUp() {
       }
       if (userID) verifyAdmin();
     }
+    else localStorage.clear();
   });
 
 

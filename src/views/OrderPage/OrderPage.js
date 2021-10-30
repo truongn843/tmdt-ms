@@ -17,11 +17,14 @@ export default function OrderPage (props) {
 
     onAuthStateChanged(auth, (user)=>{
       if (user){}
-      else 
+      else {
+        localStorage.clear();
         history.push({
           pathname: '/login',
           state: {msg: "Trước hết bạn cần đăng nhập."}
         });
+      }
+        
     });
 
     const db = getFirestore(app);

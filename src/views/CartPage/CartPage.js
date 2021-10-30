@@ -27,11 +27,14 @@ function CartPage() {
 
   onAuthStateChanged(auth, (user)=> {
     if(user);
-    else
+    else{
       history.push({
         pathname: '/login',
         state: {msg: "Trước hết bạn cần đăng nhập."}
       });
+      localStorage.clear();
+    }
+      
   });
   
   useEffect(() => {

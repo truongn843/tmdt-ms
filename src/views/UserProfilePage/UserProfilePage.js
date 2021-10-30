@@ -22,8 +22,11 @@ function UserProfilePage() {
       }
       if (userID) verifyAdmin();
     }
-    else
+    else{
+      localStorage.clear();
       history.push("/");
+    }
+      
   });
   return (
     <div>
