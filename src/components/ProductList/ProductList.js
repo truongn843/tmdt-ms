@@ -8,7 +8,7 @@ import { getFirestore, collection, addDoc, query, where, getDocs } from "firebas
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import "./product.css"
 
-function ProductList(){
+function ProductList(props){
   const filterData = require("../../pseudo-data/filter.json");
   const [prdList, setPrdList] = useState({list: []});
   const [displayProduct, setDisplayProduct] = useState({list: []});
@@ -59,14 +59,8 @@ function ProductList(){
         <div className="btn filter-btn">Reset bộ lọc</div>
         {/* Giá */}
         <FilterButton data={filterData.cost} />
-        {/* Hãng */}
-        <FilterButton data={filterData.brand} />
         {/* Pin */}
         <FilterButton data={filterData.batery} />
-        {/* Camera  */}
-        <FilterButton data={filterData.camera} />
-        {/* Màn hình */}
-        <FilterButton data={filterData.screen} />
       </div>
       <div className="group-result">
         <div className="result">{prdList.list.length} sản phẩm</div>
@@ -82,29 +76,6 @@ function ProductList(){
           </label>
         </div>
 
-        <div className="form-check check">
-          <input
-            className="form-check-input "
-            type="checkbox"
-            value=""
-            id="flexCheckDefault"
-          />
-          <label className="form-check-label" htmlFor="flexCheckDefault">
-            Trả góp
-          </label>
-        </div>
-
-        <div className="form-check check">
-          <input
-            className="form-check-input "
-            type="checkbox"
-            value=""
-            id="flexCheckDefault"
-          />
-          <label className="form-check-label" htmlFor="flexCheckDefault">
-            Mới
-          </label>
-        </div>
       </div>
     </div>
       <div className="product-container-label">Điện thoại nổi bật</div>

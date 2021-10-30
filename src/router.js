@@ -12,6 +12,7 @@ import ProductPageView from "./views/ProductPage/ProductPage";
 import AdminManagePageView from "./views/AdminManagePage/AdminManagePage";
 import Error from "./components/Error/Error";
 import OrderPageView from "./views/OrderPage/OrderPage";
+import EditProductPageView from "./views/EditProductPage/EditProductPage";
 
 const routes = [
   {
@@ -53,6 +54,11 @@ const routes = [
     path: "/add-product",
     exact: true,
     component: AddProductPageView,
+  },
+  {
+    path: "/edit-product",
+    exact: true,
+    component: EditProductPageView,
   },
   {
     path: "/cart",

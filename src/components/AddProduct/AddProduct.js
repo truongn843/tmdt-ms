@@ -5,10 +5,11 @@ import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import Select from 'react-select';
 import placeholder from '../../assert/placeholder.png';
+import { useHistory } from "react-router";
 
 
 function AddProduct() {
-  const [msg, setMsg] = useState({ status: false, message: "Thêm sản phẩm thành công!" });
+  let history = useHistory();
   const [img, setImg] = useState({selectedFile: null});
   const bluetoothVers = [5, 4.2, 4.1, 4, 3];
   const simTypes = ['Không hỗ trợ', 'Nano SIM', 'Micro SIM', 'eSIM'];
@@ -72,10 +73,13 @@ function AddProduct() {
         dateAdded: new Date() 
       }).then((docRef)=>{
         uploadBytes(ref(storage, 'products/' + docRef.id), img.selectedFile);
+        alert("Thêm sản phẩm thành công!");
+      }).then(()=>{
+        history.push("/admin-manage");
       });
     }
     addNewProduct();
-    setMsg({...msg, status: true});
+
   }
 
   const handleBluetooth = e => {
@@ -220,6 +224,7 @@ function AddProduct() {
                   type="file"
                   className="form-control"
                   onChange={handleImg}
+                  required
                 />
               </div>
             </div>
@@ -530,14 +535,6 @@ function AddProduct() {
                 />
               </div>
             </div>
-            {msg.status === true && (
-              <div className="mb-3 row">
-              <label className="col-form-label">
-                <h3>{msg.message}</h3>
-              </label>
-            </div>
-            )}
-            
             
             <button
               type="submit"

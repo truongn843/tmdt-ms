@@ -279,7 +279,7 @@ export default function ProductDetail (props) {
                         </tr>
                         <tr>
                             <td>Công nghệ màn hình</td>
-                            <td>{product.screenTech} inch</td>
+                            <td>{product.screenTech}</td>
                         </tr>
                         <tr>
                             <td>Độ phân giải màn hình</td>

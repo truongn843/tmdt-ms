@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {app} from "../../firebase";
 import "./Management.css";
-import { collection, query, where, getDocs, getFirestore, setDoc, doc, getDoc, orderBy, Timestamp } from "firebase/firestore";
-import { getAuth, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
+import { collection, query, where, getDocs, getFirestore, setDoc, doc, getDoc, orderBy, Timestamp, deleteDoc } from "firebase/firestore";
 import { useHistory } from "react-router";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle, faFileAlt } from "@fortawesome/free-regular-svg-icons"
 import RatingStar from "../RatingStar/RatingStar";
-import { faPlus, faCheck, faEdit } from "@fortawesome/free-solid-svg-icons";
-import { clone } from "@babel/types";
+import { faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 function Management(props) {
     let history = useHistory();
@@ -96,7 +93,7 @@ function Management(props) {
                     </td>
                     <td><RatingStar rating={doc.data().rating}/></td>
                     <td className="mn-btn-container">
-                        <span className="mn-btn mn-edit"><FontAwesomeIcon icon={faEdit}/></span>
+                        <span className="mn-btn mn-edit" onClick={e=>handleEditPrd(e, doc.id)}><FontAwesomeIcon icon={faEdit}/></span>
                         <span className="mn-btn mn-rm" onClick={e=>setAlert({status: true, currentPrdID: doc.id})}><FontAwesomeIcon icon={faTimesCircle}/></span>
                     </td>
                 </tr>
@@ -182,10 +179,16 @@ function Management(props) {
         loadOrderDetail();
     }
 
+    const handleEditPrd = (e, id) => {
+        history.push({
+            pathname: "/edit-product",
+            state: {prdID: id}
+        })
+    }
+
     const deletePrd = e => {
         const deleteProduct = async () => {
             const db = getFirestore(app);
-            const storage = getStorage(app);
             // Xóa sản phẩm trong các giỏ hàng
             const updateCart = async (docID, data) => {
                 const cartRef = doc(db, "carts", docID);
@@ -201,8 +204,11 @@ function Management(props) {
                 })
                 updateCart(doc.id, cloneData);
             })
-            // Xóa review sản phẩm
+            // Xóa sản phẩm
 
+            await deleteDoc(doc(db, "products", alert.currentPrdID)).then(()=>{
+                window.location.reload();
+            });
         }
         if (alert.currentPrdID) deleteProduct();
         //window.location.reload();
