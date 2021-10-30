@@ -6,11 +6,12 @@ import {getFirestore, doc, getDoc}from "firebase/firestore";
 import {onAuthStateChanged, getAuth} from "firebase/auth";
 import UserNavbar from "../../components/NavBar/UserNavbar";
 import AdminNavbar from "../../components/NavBar/AdminNavbar";
+import qrcode from "./qrcode.jpg";
 
 export default function OrderPage (props) {
     let history = useHistory();
     const [navbar, setNavbar] = useState({bar: null})
-    const [status, setStatus] = useState({value: "accepted", orderID: null, amount: null});
+    const [status, setStatus] = useState({orderID: null, amount: null, paymentMethod: null});
 
     const auth = getAuth(app);
     const userID = localStorage.getItem('userID');
@@ -39,12 +40,14 @@ export default function OrderPage (props) {
       }
     }
 
+    console.log(status);
+
     useEffect(() => {
       try{
         setStatus({
-          value: props.location.state.orderStatus, 
           orderID: props.location.state.orderID,
-          amount: props.location.state.amount
+          amount: props.location.state.amount,
+          paymentMethod: props.location.state.paymentMethod
         });
       } catch (error) {
         history.push("/");
@@ -60,7 +63,7 @@ export default function OrderPage (props) {
     <div>
         {navbar.bar}
         <div className="order-container">
-                {  status.value === "success" && (
+                {  status.paymentMethod === "cod" && (
                     <div className="card success">
                         <div className="order-img">
                             <i className="icon">✓</i>
@@ -81,7 +84,7 @@ export default function OrderPage (props) {
                         <button onClick={backToHome}>Tiếp tục mua hàng</button>
                     </div>
                 )}
-                {   status.value === "accepted" && (
+                {   status.paymentMethod !== "cod" && (
                     <div className="card accepted">
                         <div className="order-img">
                             <i className="icon">✓</i>
@@ -91,9 +94,8 @@ export default function OrderPage (props) {
                         <p>Đơn hàng của quý khách đã được tiếp nhận và chờ thanh toán.<hr/></p>
                         <h1>Mã đơn hàng: <strong>{status.orderID}</strong></h1> <hr/>
                         <p>
-                            Khách hàng vui lòng chuyển số tiền tương ứng vào  <br/>
-                            một trong những tài khoản ngân hàng
-                            dưới đây với nội dung là <strong>mã đơn hàng</strong>.
+                            Khách hàng vui lòng chuyển số tiền tương ứng vào một trong những  <br/>
+                            tài khoản ngân hàng (hoặc ví MoMo) dưới đây với nội dung là <strong>mã đơn hàng</strong>.
                         </p><br/>
                         <p className="amount-display">Số tiền cần thanh toán: 
                           <span className="amount-value">
@@ -103,20 +105,45 @@ export default function OrderPage (props) {
                             })}
                           </span>
                         </p>
+                        { status.paymentMethod === "banking" &&
                         <table className="bank-account">
-                          <tr>
-                            <th>Ngân hàng</th>
-                            <th>Chi nhánh</th>
-                            <th>STK</th>
-                            <th>Tên chủ TK</th>
-                          </tr>
-                          <tr>
-                            <td>OCB</td>
-                            <td>Lý Thường Kiệt Q10 TPHCM</td>
-                            <td>0004 1000 xxxx xxxx</td>
-                            <td>NGUYEN HUU TRUONG</td>
-                          </tr>
+                          <tbody>
+                            <tr>
+                              <th>Ngân hàng</th>
+                              <th>Chi nhánh</th>
+                              <th>STK</th>
+                              <th>Tên chủ TK</th>
+                            </tr>
+                            <tr>
+                              <td>OCB</td>
+                              <td>Lý Thường Kiệt Q10 TPHCM</td>
+                              <td>0004 1000 xxxx xxxx</td>
+                              <td>NGUYEN HUU TRUONG</td>
+                            </tr>
+                          </tbody>
                         </table>
+                        }
+                        { status.paymentMethod === "momo" &&
+                        <div>
+                          <table className="bank-account">
+                            <tbody>
+                              <tr>
+                                <th>Ví điện tử</th>
+                                <th>SĐT</th>
+                                <th>Tên chủ TK</th>
+                              </tr>
+                              <tr>
+                                <td>MoMo</td>
+                                <td>0333 446 xxx</td>
+                                <td>NGUYEN HUU TRUONG</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <img src={qrcode} alt="qrcode" width="300px"/>
+                        </div>
+                        
+                        }
+                        
                         <p><i>Nếu gặp sự cố, quý khách vui lòng liên hệ hotline <strong>1900 xxxx</strong> để được hỗ trợ.</i>
                             <br/><br/>  Cảm ơn quý khách đã lựa chọn sản phẩm của chúng tôi !
                         </p>

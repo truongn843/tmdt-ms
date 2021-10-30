@@ -119,18 +119,15 @@ export default function PaymentPage (props) {
   const handlePayment = e => {
     let orderID = genOrderID();
     addOrder(orderID);
-    if (paymentInfo.method === "cod"){
+    if (paymentInfo.method) 
       history.push({
         pathname: "/order-status",
-        state: {orderStatus: "success", orderID: orderID, amount: cartInfo.estimated - cartInfo.voucherDiscount}
+        state: {
+          orderID: orderID, 
+          amount: cartInfo.estimated - cartInfo.voucherDiscount,
+          paymentMethod: paymentInfo.method
+        }
       })
-    }
-    else {
-      history.push({
-        pathname: "/order-status",
-        state: {orderStatus: "accepted", orderID: orderID, amount: cartInfo.estimated - cartInfo.voucherDiscount}
-      })
-    }
   }
 
   return (
