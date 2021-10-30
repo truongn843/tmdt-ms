@@ -1,0 +1,72 @@
+.management-container {
+    z-index: 0;
+    width: 100%;
+    background-color: #ececec;
+    padding: 2rem;
+    margin: 0 auto;
+    border-radius: 10px;
+  }
+.mn-prd-tab {
+    width: auto;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: inline-block;
+    padding: 10px;
+    margin: 10px 10px 10px 0px;
+    color: lightgray;
+    -webkit-transition: all 150ms ease-out; 
+        -moz-transition: all 150ms ease-out; 
+        -o-transition: all 150ms ease-out; 
+            transition: all 150ms ease-out; 
+}
+.mn-prd-tab:hover {
+    color: gray;
+    -webkit-transition: all 150ms ease-out; 
+        -moz-transition: all 150ms ease-out; 
+        -o-transition: all 150ms ease-out; 
+            transition: all 150ms ease-out; 
+}
+.mn-prd-tab:hover {
+    cursor: pointer;
+}
+.management-container .phone-btn {
+    width: 220px;
+    margin-bottom: 20px;
+}
+.mn-btn{
+    font-size: 25px;
+}
+.mn-btn:hover{
+    cursor: pointer;
+}
+.mn-edit {
+    margin-right: 20px;
+}
+.mn-edit:hover {
+    color: skyblue;
+}
+.mn-rm {
+    margin-top: 10x;
+}
+.mn-rm:hover {
+    color: red;
+}
+.mn-btn-container {
+    text-align: center;
+}
+.management-container .star{
+    color: black;
+}
+.management-container .user-orders-table tr:hover{
+    background-color: #e1e1e1;
+}
+.mn-none-display {
+    display: none;
+}
+.order-container {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+.order-container .content-specs {
+    text-align: left;
+}

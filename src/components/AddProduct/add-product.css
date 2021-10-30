@@ -33,8 +33,9 @@ h3 {
   text-align: center;
   margin-bottom: 0px;
 }
-.product-image{
-  border: 2px solid white;
+.container .product-image{
   padding: 0px;
   vertical-align: top;
+  padding-left: 50px;
+  width: 90%;
 }

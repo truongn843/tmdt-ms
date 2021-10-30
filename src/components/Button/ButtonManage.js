@@ -7,7 +7,7 @@ import { useHistory } from "react-router";
 const ButtonManage = () => {
     let history = useHistory();
     const handleAddProduct = () => {
-        history.push("/add-product");
+        history.push("/admin-manage");
       };
     return (
     <div>

@@ -141,6 +141,7 @@ export default function ProductDetail (props) {
                 let cloneData = JSON.parse(JSON.stringify(prdSnap.data()));
                 cloneData.ratingCount = oldRatingCount + 1;
                 cloneData.rating = newRating;
+                cloneData.dateAdded = prdSnap.data().dateAdded.toDate();
                 await setDoc(prdRef, cloneData).then(()=>{
                     setTab({value: 3});
                     window.location.reload();

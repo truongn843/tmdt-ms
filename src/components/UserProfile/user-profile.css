@@ -129,11 +129,12 @@
   background-color: white;
   width: 450px;
   height: 150px;
-  border: 1px solid #C8D0D8;
+  border: 2px solid #C8D0D8;
   border-radius: 10px;
   text-align: center;
   font-size: 25px;
   padding: 15px;
+  box-shadow: 10px 10px 20px lightgray;
 }
 .btn-confirm {
   float: right;

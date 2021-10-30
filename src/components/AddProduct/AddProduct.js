@@ -50,7 +50,7 @@ function AddProduct() {
     wifi: "",
     os: "Android",
     mobileNetwork: "4G",
-    rating: "n/a",
+    rating: 0,
     ratingCount: 0
   });
 
@@ -69,7 +69,7 @@ function AddProduct() {
       const storage = getStorage(app);
       await addDoc(collection(db, 'products'), {
         ...product,
-        dateCreated: new Date() 
+        dateAdded: new Date() 
       }).then((docRef)=>{
         uploadBytes(ref(storage, 'products/' + docRef.id), img.selectedFile);
       });

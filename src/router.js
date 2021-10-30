@@ -9,7 +9,7 @@ import AddProductPageView from "./views/AddProductPage/AddProductPage";
 import UserProfilePageView from "./views/UserProfilePage/UserProfilePage";
 import AdminProfilePageView from "./views/UserProfilePage/AdminProfilePage";
 import ProductPageView from "./views/ProductPage/ProductPage";
-import ProductCard from "./components/ProductCard/productCard";
+import AdminManagePageView from "./views/AdminManagePage/AdminManagePage";
 import Error from "./components/Error/Error";
 import OrderPageView from "./views/OrderPage/OrderPage";
 
@@ -68,6 +68,11 @@ const routes = [
     path: "/admin-profile",
     exact: true,
     component: AdminProfilePageView,
+  },
+  {
+    path: "/admin-manage",
+    exact: true,
+    component: AdminManagePageView,
   },
   {
     path: "/product-detail",

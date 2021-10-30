@@ -76,7 +76,7 @@ function UserProfile(props) {
       let dvvc = "";
       let status = "";
       let orderedDate = doc.data().dateCreated.toDate();
-      orderedDate = orderedDate.getDate() + '-' + (orderedDate.getMonth() + 1) + '-' + orderedDate.getFullYear()
+      orderedDate = orderedDate.getDate() + '/' + (orderedDate.getMonth() + 1) + '/' + orderedDate.getFullYear()
                     + ' ' + orderedDate.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'});
       switch(doc.data().shippingService){
         case "direct": dvvc = "Nhận tại quầy"; break;
