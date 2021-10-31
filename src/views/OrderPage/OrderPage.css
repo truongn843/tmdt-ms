@@ -37,6 +37,7 @@
     margin-bottom: 20px;
 }
 .order-container {
+    padding: 0;
     text-align: center;
 }
 .order-container .success button {

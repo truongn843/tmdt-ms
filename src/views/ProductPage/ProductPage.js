@@ -7,6 +7,7 @@ import UserNavbar from "../../components/NavBar/UserNavbar";
 import AdminNavbar from "../../components/NavBar/AdminNavbar";
 import ProductDetail from "../../components/ProductDetail/ProductDetail";
 import {onAuthStateChanged, getAuth} from "firebase/auth";
+import Footer from "../../components/Footer/Footer";
 
 function ProductPage(props) {
   const [navbar, setNavbar] = useState({bar: null});
@@ -54,6 +55,7 @@ function ProductPage(props) {
           id={prdID.value}
         />
       }
+      <Footer/>
     </div>
   );
 }

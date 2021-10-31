@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {onAuthStateChanged, getAuth} from "firebase/auth";
 import {app} from "../../firebase";
 import {getFirestore, query, collection, where, getDocs, doc, getDoc}from "firebase/firestore"
+import Footer from "../../components/Footer/Footer";
 
 function CartPage() {
   const [navbar, setNavbar] = useState({bar: null});
@@ -160,6 +161,7 @@ function CartPage() {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, query, where, getDocs, doc, getDoc } from "firebase/firestore"
 
 import "./homepage.css";
+import Footer from "../../components/Footer/Footer";
 
 function HomePageGuest() {
   let history = useHistory();
@@ -40,6 +41,7 @@ function HomePageGuest() {
     <div>
       <Navbar handleLogout={handleLogout} />
       <ProductList />
+      <Footer/>
     </div>
   );
 }

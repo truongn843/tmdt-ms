@@ -7,6 +7,7 @@ import {onAuthStateChanged, getAuth} from "firebase/auth";
 import UserNavbar from "../../components/NavBar/UserNavbar";
 import AdminNavbar from "../../components/NavBar/AdminNavbar";
 import qrcode from "./qrcode.jpg";
+import Footer from "../../components/Footer/Footer";
 
 export default function OrderPage (props) {
     let history = useHistory();
@@ -152,6 +153,7 @@ export default function OrderPage (props) {
                 )}
 
         </div>  
+        <Footer/>
     </div>
     );
 }

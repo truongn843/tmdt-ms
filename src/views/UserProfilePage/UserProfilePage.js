@@ -5,6 +5,7 @@ import {onAuthStateChanged, getAuth} from "firebase/auth";
 import {app} from "../../firebase";
 import {getFirestore, doc, getDoc}from "firebase/firestore"
 import { useHistory } from "react-router";
+import Footer from "../../components/Footer/Footer";
 
 function UserProfilePage() {
   const auth = getAuth(app);
@@ -32,6 +33,7 @@ function UserProfilePage() {
     <div>
       <UserNavbar />
       <UserProfile />
+      <Footer/>
     </div>
   );
 }

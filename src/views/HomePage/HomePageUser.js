@@ -6,6 +6,7 @@ import { app } from "../../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore"
 import "./homepage.css";
+import Footer from "../../components/Footer/Footer";
 
 function HomePageUser() {
   let history = useHistory();
@@ -36,6 +37,7 @@ function HomePageUser() {
     <div>
       <UserNavbar />
       <ProductList />
+      <Footer/>
     </div>
   );
 }

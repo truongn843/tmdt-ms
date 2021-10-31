@@ -7,6 +7,7 @@ import { getFirestore, collection, addDoc, doc, getDoc } from "firebase/firestor
 
 import "../../components/reset.css";
 import "./signup.css";
+import Footer from "../../components/Footer/Footer";
 
 function SignUp() {
   const [user, setUser] = useState({ email: "", password: "", rPassword: "" , phone: ""});
@@ -135,6 +136,7 @@ function SignUp() {
           </div>
         </form>
       </div>
+      <Footer/>
     </div>
   );
 }

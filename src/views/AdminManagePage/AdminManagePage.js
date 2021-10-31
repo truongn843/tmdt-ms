@@ -6,6 +6,7 @@ import {app} from "../../firebase";
 import {getFirestore, doc, getDoc}from "firebase/firestore"
 import { useHistory } from "react-router";
 import Management from "../../components/Management/Management";
+import Footer from "../../components/Footer/Footer";
 
 function AdminManagePage() {
   const auth = getAuth(app);
@@ -34,6 +35,7 @@ function AdminManagePage() {
     <div>
       <AdminNavbar/>
       <Management/>
+      <Footer/>
     </div>
   );
 }

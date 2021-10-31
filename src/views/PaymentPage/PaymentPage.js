@@ -17,6 +17,7 @@ import {getFirestore, doc, getDoc, setDoc, deleteDoc}from "firebase/firestore";
 
 
 import "./PaymentPage.css";
+import Footer from "../../components/Footer/Footer";
 
 
 export default function PaymentPage (props) {
@@ -218,6 +219,7 @@ export default function PaymentPage (props) {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }

@@ -320,14 +320,14 @@ function UserProfile(props) {
               Giới tính
             </label>
             <div className="col-sm-8">
-              <input type="radio" value="male" name="gender"
+              <input type="radio" value="male" name="gender" className="radio-fake" id="male"
                 onChange={(e) => setUser({ ...user, gender: 'male' })}
                 checked={user.gender === 'male'}
-              /><span style={{marginRight: "1rem", marginLeft: "5px"}}>Nam</span>
-              <input type="radio" value="female" name="gender"
+              /><label for="male" style={{paddingRight: "1rem"}}>Nam</label>
+              <input type="radio" value="female" name="gender" className="radio-fake" id="female"
                 onChange={(e) => setUser({ ...user, gender: 'female' })}
                 checked={user.gender === 'female'}
-              /> Nữ
+              /><label for="female" style={{paddingRight: "1rem"}}>Nữ</label>
             </div>
           </div>
           <div className="mb-3 row">

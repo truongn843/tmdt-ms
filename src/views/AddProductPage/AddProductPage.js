@@ -5,6 +5,7 @@ import { useHistory } from "react-router";
 import { app } from "../../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore"
+import Footer from "../../components/Footer/Footer";
 
 function AddProductPage() {
 
@@ -31,6 +32,7 @@ function AddProductPage() {
     <>
       <AdminNavbar />
       <AddProduct />
+      <Footer/>
     </>
   );
 }

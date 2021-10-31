@@ -5,6 +5,7 @@ import ProductList from "../../components/ProductList/ProductList";
 import { app } from "../../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore"
+import Footer from "../../components/Footer/Footer"
 
 import "./homepage.css";
 
@@ -34,6 +35,7 @@ function HomePageGuest() {
     <div>
       <GuestNavbar/>
       <ProductList />
+      <Footer/>
     </div>
   );
 }
