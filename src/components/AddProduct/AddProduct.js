@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "./add-product.css";
 import {app} from "../../firebase";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getFirestore, collection, addDoc, updateDoc  } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Select from 'react-select';
 import placeholder from '../../assert/placeholder.png';
 import { useHistory } from "react-router";
+import { updateCurrentUser } from "@firebase/auth";
 
 
 function AddProduct() {
@@ -52,7 +53,8 @@ function AddProduct() {
     os: "Android",
     mobileNetwork: "4G",
     rating: 0,
-    ratingCount: 0
+    ratingCount: 0,
+    imgURL: ""
   });
 
   bluetoothVers.forEach((ver, i)=>{
@@ -65,6 +67,8 @@ function AddProduct() {
 
   const addProduct = (e) => {
     e.preventDefault();
+
+
     const addNewProduct = async () => {
       const db = getFirestore(app);
       const storage = getStorage(app);
@@ -72,7 +76,17 @@ function AddProduct() {
         ...product,
         dateAdded: new Date() 
       }).then((docRef)=>{
-        uploadBytes(ref(storage, 'products/' + docRef.id), img.selectedFile);
+        const updateImgURL = async (url) => {
+          await updateDoc(docRef, {
+            imgURL: url
+          })
+        }
+        uploadBytes(ref(storage, 'products/' + docRef.id), img.selectedFile).then(()=>{
+          getDownloadURL(ref(storage, 'products/' + docRef.id)).then((url)=>{
+            updateImgURL(url);
+          })
+        });
+        
         alert("Thêm sản phẩm thành công!");
       }).then(()=>{
         history.push("/admin-manage");
@@ -191,7 +205,7 @@ function AddProduct() {
                   id="screen"
                   value={product.price}
                   onChange={(e) => {
-                    setProduct({ ...product, price: e.target.value });
+                    setProduct({ ...product, price: parseInt(e.target.value) });
                   }}
                   placeholder="Vd: 21299000. Nếu hết hàng thì để 'Hết hàng'"
                   required
@@ -209,7 +223,7 @@ function AddProduct() {
                   id="screen"
                   value={product.discountFrom}
                   onChange={(e) => {
-                    setProduct({ ...product, discountFrom: e.target.value });
+                    setProduct({ ...product, discountFrom: parseInt(e.target.value) });
                   }}
                   placeholder="Bỏ trống nếu không giảm giá."
                 />
@@ -446,7 +460,7 @@ function AddProduct() {
                   id="screen"
                   value={product.screenWidth}
                   onChange={(e) => {
-                    setProduct({ ...product, screenWidth: e.target.value });
+                    setProduct({ ...product, screenWidth: parseFloat(e.target.value) });
                   }}
                   placeholder="Chỉ điền số. Vd: 6.3"
                   required

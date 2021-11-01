@@ -6,7 +6,7 @@
 .group-result {
   display: flex;
 }
-.filter-btn {
+.sort-btn {
   text-align: center;
   border: 1px solid #385170;
   border-radius: 5px;
@@ -36,4 +36,22 @@
 .check,
 .result {
   margin: 0 1rem;
+}
+.group-select .sort-option {
+  text-align: left;
+
+}
+.group-select .sort-arrow {
+  float: right;
+  margin-top: 1px;
+  margin-left: 5px;
+}
+.filter-bar .group-select .active-sort {
+  background-color: #142d4c;
+  border: 1px solid #9fd3c7;
+  color: #9fd3c7;
+}
+.filter-bar .group-select .active-sort:hover{
+  background-color: #9fd3c7;
+  color: #142d4c;
 }

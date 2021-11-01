@@ -57,7 +57,7 @@ function ProductCard (props) {
                 <div className="stats">        	
                     <div className="stats-container">
                         <div className="product_name">{props.title}</div> 
-                        <RatingStar rating={props.rating} />
+                        <RatingStar rating={props.rating.toFixed(1)} />
                         { discount.status === true ? (
                             <div className="product_discounted_price">
                                 {Number(props.discountFrom).toLocaleString("vi-VN", {

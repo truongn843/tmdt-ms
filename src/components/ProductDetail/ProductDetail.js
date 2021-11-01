@@ -133,7 +133,7 @@ export default function ProductDetail (props) {
             }
             let oldRating = parseFloat(product.rating);
             let oldRatingCount = parseFloat(product.ratingCount);
-            let newRating = ((oldRating * oldRatingCount + review.rating) / (oldRatingCount + 1)).toFixed(1);
+            let newRating = (oldRating * oldRatingCount + review.rating) / (oldRatingCount + 1);
             const addReview = async () => {
                 await addDoc(collection(db, "reviews"), review);
                 const prdRef = doc(db, 'products', props.id);
@@ -175,7 +175,7 @@ export default function ProductDetail (props) {
                 {   tab.value === 1 && 
                 <div className="content-info">
                     <div className="phone-title">{product.title}</div>
-                    {product.rating !== null && <RatingStar rating={product.rating}/>}
+                    {product.rating !== null && <RatingStar rating={product.rating.toFixed(1)}/>}
                     {product.discountFrom !== "" && 
                     <div>
                         <span className="discount-price">{Number(product.discountFrom).toLocaleString("vi-VN", {
@@ -303,7 +303,7 @@ export default function ProductDetail (props) {
                 {   tab.value === 3 && 
                 <div className="content-rating">
                     <div className="big-stars">
-                        <RatingStar rating={product.rating}/>
+                        <RatingStar rating={product.rating.toFixed(1)}/>
                         <div className="rating-count">Sản phẩm đã được đánh giá {product.ratingCount} lần.</div>
                     </div>
                     {   localStorage.getItem('userID') === null && 

@@ -27,12 +27,9 @@
     border-bottom: 2px solid #142d4c;
 }
 .tab-row .active{
-    font-weight: 700;
-    border-radius: 10px 10px 0px 0px;
-    border-top: 2px solid #142d4c;
-    border-left: 2px solid #142d4c;
-    border-right: 2px solid #142d4c;
-    border-bottom: 0;
+    font-weight: 900;
+    background-color: #273f5e;
+    color: #9fd3c7;
 }
 .tab-row .tab-col:hover {
     cursor: pointer;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./EditProduct.css";
 import {app} from "../../firebase";
-import { getFirestore, collection, addDoc, doc, getDoc, setDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Select from 'react-select';
 import placeholder from '../../assert/placeholder.png';
@@ -54,6 +54,7 @@ function EditProduct(props) {
         mobileNetwork: "4G",
         rating: 0,
         ratingCount: 0,
+        imgURL: "",
         dateAdded: null
     });
 
@@ -152,7 +153,8 @@ function EditProduct(props) {
             mobileNetwork: prdSnap.data().mobileNetwork,
             rating: prdSnap.data().rating,
             ratingCount: prdSnap.data().ratingCount,
-            dateAdded: prdSnap.data().dateAdded.toDate()
+            dateAdded: prdSnap.data().dateAdded.toDate(),
+            imgURL: prdSnap.data().imgURL
         })
 
         setDisplayOption({
@@ -206,11 +208,21 @@ function EditProduct(props) {
     const editProduct = (e) => {
         e.preventDefault();
         const editThisProduct = async () => {
+            const prdID = history.location.state.prdID;
             const db = getFirestore(app);
             const storage = getStorage(app);
-            await setDoc(doc(db, "products", history.location.state.prdID), product);
+            await setDoc(doc(db, "products", prdID), product);
+            const updateImgURL = async (url) => {
+                await updateDoc(doc(db, "products", prdID), {
+                  imgURL: url
+                })
+              }
             if (img.selectedFile)
-                uploadBytes(ref(storage, 'products/' + history.location.state.prdID), img.selectedFile);
+                uploadBytes(ref(storage, 'products/' + prdID), img.selectedFile).then(()=>{
+                    getDownloadURL(ref(storage, 'products/' + prdID)).then((url)=>{
+                        updateImgURL(url);
+                      })
+                });
             alert("Cập nhật sản phẩm thành công!");
             history.push("/admin-manage");
         }
@@ -551,7 +563,7 @@ function EditProduct(props) {
                     
                     value={product.screenWidth}
                     onChange={(e) => {
-                    setProduct({ ...product, screenWidth: e.target.value });
+                    setProduct({ ...product, screenWidth: parseFloat(e.target.value) });
                     }}
                     placeholder="Chỉ điền số. Vd: 6.3"
                     

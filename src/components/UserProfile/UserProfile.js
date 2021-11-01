@@ -132,7 +132,7 @@ function UserProfile(props) {
       const storage = getStorage(app);
       const userRef = doc(db, 'users', userID);
       const userSnap = await getDoc(userRef);
-      let cloneData = JSON.parse(JSON.stringify(userSnap.data()));;
+      let cloneData = JSON.parse(JSON.stringify(userSnap.data()));
       cloneData.fullname = user.fullname;
       cloneData.phone = user.phone;
       cloneData.gender = user.gender;
