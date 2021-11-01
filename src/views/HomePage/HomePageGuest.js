@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { useHistory } from "react-router-dom";
 import GuestNavbar from "../../components/NavBar/GuestNavbar";
 import ProductList from "../../components/ProductList/ProductList";
@@ -13,6 +13,7 @@ function HomePageGuest() {
   let history = useHistory();
   const auth = getAuth(app);
   const userID = localStorage.getItem('userID');
+  const [search, setSearch] = useState({value: null});
 
   onAuthStateChanged(auth, (user)=> {
     if(user){
@@ -31,10 +32,14 @@ function HomePageGuest() {
   });
 
   document.title = "BK Phone";
+
+  const handleSearchCallback = (searchData) => {
+    setSearch({value: searchData})
+  }
   return (
     <div>
-      <GuestNavbar/>
-      <ProductList />
+      <GuestNavbar parentCallBack={handleSearchCallback}/>
+      <ProductList search={search.value}/>
       <Footer/>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import UserNavbar from "../../components/NavBar/UserNavbar";
 import ProductList from "../../components/ProductList/ProductList";
 import { useHistory } from "react-router";
@@ -12,6 +12,7 @@ function HomePageUser() {
   let history = useHistory();
   const auth = getAuth(app);
   const userID = localStorage.getItem('userID');
+  const [search, setSearch] = useState({value: null});
 
   onAuthStateChanged(auth, (user)=> {
     if(user){
@@ -31,12 +32,16 @@ function HomePageUser() {
       
   });
 
+  const handleSearchCallback = (searchData) => {
+    setSearch({value: searchData})
+  }
+
   document.title = "BK Phone";
 
   return (
     <div>
-      <UserNavbar />
-      <ProductList />
+      <UserNavbar parentCallBack={handleSearchCallback}/>
+      <ProductList search={search.value}/>
       <Footer/>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { useHistory } from "react-router";
 import Navbar from "../../components/NavBar/AdminNavbar";
 import ProductList from "../../components/ProductList/ProductList";
@@ -13,6 +13,7 @@ function HomePageGuest() {
   let history = useHistory();
   const auth = getAuth(app);
   const userID = localStorage.getItem('userID');
+  const [search, setSearch] = useState({value: null});
 
   onAuthStateChanged(auth, (user)=> {
     if(user){
@@ -36,11 +37,16 @@ function HomePageGuest() {
     localStorage.removeItem("token");
     history.push("/login");
   };
+
+  const handleSearchCallback = (searchData) => {
+    setSearch({value: searchData})
+  }
+
   document.title = "BK Phone";
   return (
     <div>
-      <Navbar handleLogout={handleLogout} />
-      <ProductList />
+      <Navbar handleLogout={handleLogout} parentCallBack={handleSearchCallback}/>
+      <ProductList search={search.value}/>
       <Footer/>
     </div>
   );

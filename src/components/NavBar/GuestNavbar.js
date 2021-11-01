@@ -9,9 +9,11 @@ import Logo from "./Logo/Logo";
 
 import "../reset.css";
 import "./css/navbar.css";
+import Search from "../Search/Search";
+
 fontawesome.library.add(faSearch);
 
-function GuestNavbar() {
+function GuestNavbar(props) {
   let history = useHistory();
 
   const handleBackToHome = (e) => {
@@ -20,17 +22,13 @@ function GuestNavbar() {
   const handleLogin = (e) => {
     history.push("/login");
   }
+  const handleSearchCallback = (searchData) => {
+    props.parentCallBack(searchData);   
+  }
   return (
     <nav className="navbar nav-container">
       <Logo handlebackToHome={handleBackToHome} />
-      <div className="nav-search">
-        <FontAwesomeIcon icon="search"></FontAwesomeIcon>
-        <input
-          type="text"
-          className="nav-search__input"
-          placeholder="Tìm kiếm..."
-        />
-      </div>
+      <Search parentCallBack={handleSearchCallback}/>
       <div className="btn-group">
         <ButtonCart />
         <ButtonLogin handleLogin={handleLogin} />

@@ -13,8 +13,9 @@ import "../reset.css";
 import "./css/navbar.css";
 import Logo from "./Logo/Logo";
 import ButtonManage from "../Button/ButtonManage";
+import Search from "../Search/Search";
 
-function AdminNavbar() {
+function AdminNavbar(props) {
   const [img, setImg] = useState({avatar: false, imgURL: ""});
   let history = useHistory();
   const auth = getAuth(app);
@@ -52,17 +53,13 @@ function AdminNavbar() {
   const handleViewCart = () => {
     history.push("/cart");
   };  
+  const handleSearchCallback = (searchData) => {
+    props.parentCallBack(searchData);   
+  }
   return (
     <nav className="navbar nav-container">
       <Logo handlebackToHome={handleBackToHome} />
-      <div className="nav-search">
-        <FontAwesomeIcon icon="search"></FontAwesomeIcon>
-        <input
-          type="text"
-          className="nav-search__input"
-          placeholder="Tìm kiếm..."
-        />
-      </div>
+      <Search parentCallBack={handleSearchCallback}/>
       <div className="btn-group">
         <ButtonManage />
         <ButtonCart handleViewCart={handleViewCart} />

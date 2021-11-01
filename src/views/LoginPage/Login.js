@@ -85,6 +85,9 @@ function Login(props) {
   const singupHandler = () => {
     history.push("/signup");
   };
+  const forgetPwdHandler = () => {
+    history.push("/forget-password");
+  };
   const backToHome = e => {
     history.push("/");
   }
@@ -125,19 +128,11 @@ function Login(props) {
             <div className="btn signup-account" onClick={singupHandler}>
               Đăng kí tài khoản
             </div>
-            <div className="btn forgot-pass">Quên mật khẩu</div>
+            <div className="btn forgot-pass" onClick={forgetPwdHandler}>Quên mật khẩu</div>
           </div>
           <button type="submit" className="login">
             ĐĂNG NHẬP
           </button>
-          <div className="or">Hoặc</div>
-          <div className="sso">
-            <FontAwesomeIcon
-              icon={faFacebook}
-              className="icon"
-            ></FontAwesomeIcon>
-            <FontAwesomeIcon icon={faGoogle} className="icon"></FontAwesomeIcon>
-          </div>
         </form>
       </div>
     </div>

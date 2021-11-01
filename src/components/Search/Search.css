@@ -1,0 +1,18 @@
+.nav-search {
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #9fd3c7;
+    float: left;
+    border-radius: 10px;
+    font-size: 22px;
+    color: #9fd3c7;
+    align-items: center;
+}
+.nav-search input {
+    background: transparent;
+    border: 0;
+    color: #9fd3c7;
+    margin-left: 1rem;
+}
+.nav-search input:focus{
+    outline: none;
+}

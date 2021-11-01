@@ -12,8 +12,9 @@ import avatar from "../../assert/avatar.png";
 import "../reset.css";
 import "./css/navbar.css";
 import Logo from "./Logo/Logo";
+import Search from "../Search/Search";
 
-function UserNavbar() {
+function UserNavbar(props) {
   const [img, setImg] = useState({avatar: false, imgURL: ""});
   const [email, setEmail] = useState({value: null});
   let history = useHistory();
@@ -52,18 +53,16 @@ function UserNavbar() {
   const handleViewProfile = () => {
     history.push("/user-profile");
   };
+  const handleSearchCallback = (searchData) => {
+    props.parentCallBack(searchData);   
+  }
 
   return (
     <nav className="navbar nav-container">
       <Logo handlebackToHome={handleBackToHome} />
-      <div className="nav-search">
-        <FontAwesomeIcon icon="search"></FontAwesomeIcon>
-        <input
-          type="text"
-          className="nav-search__input"
-          placeholder="Tìm kiếm..."
-        />
-      </div>
+
+      <Search parentCallBack={handleSearchCallback}/>
+
       <div className="btn-group">
         <ButtonCart handleViewCart={handleViewCart} />
         <div className="email-label" onClick={handleViewProfile}>{email.value}</div>

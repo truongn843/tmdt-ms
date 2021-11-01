@@ -13,12 +13,18 @@ import AdminManagePageView from "./views/AdminManagePage/AdminManagePage";
 import Error from "./components/Error/Error";
 import OrderPageView from "./views/OrderPage/OrderPage";
 import EditProductPageView from "./views/EditProductPage/EditProductPage";
+import ForgetPassword from "./views/ForgetPasswordPage/ForgetPassword";
 
 const routes = [
   {
     path: "/",
     exact: true,
     component: HomePageGuestView,
+  },
+  {
+    path: "/forget-password",
+    exact: true,
+    component: ForgetPassword,
   },
   {
     path: "/order-status",

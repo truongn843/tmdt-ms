@@ -14,6 +14,21 @@ function ProductList(props){
   const [filter, setFilter] = useState({onSale: false});
   const [sort, setSort] = useState({price: null, battery: null, screenWidth: null, rating: null});
   const [displayProduct, setDisplayProduct] = useState({list: []});
+  
+  const isSubsequence = (str1, str2) => {
+    let i=0;
+    let j=0;
+    while(i<str1.length){
+       if(j===str2.length){
+          return false;
+       }
+       if(str1[i]===str2[j]){
+          i++;
+       }
+       j++;
+    };
+    return true;
+ };
 
   const fetchData = async () => {
     const db = getFirestore(app);
@@ -29,19 +44,40 @@ function ProductList(props){
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc)=>{
-      if (!filter.onSale || doc.data().discountFrom !== '')
-      productCards.push(<ProductCard 
-        id={doc.id}
-        title={doc.data().title}
-        price={doc.data().price}
-        discountFrom={doc.data().discountFrom}
-        imgURL={doc.data().imgURL}
-        rating={doc.data().rating === "n/a" ? 0 : doc.data().rating}
-      />);
+      const pushData = () => {
+        productCards.push(<ProductCard 
+          id={doc.id}
+          title={doc.data().title}
+          price={doc.data().price}
+          discountFrom={doc.data().discountFrom}
+          imgURL={doc.data().imgURL}
+          rating={doc.data().rating === "n/a" ? 0 : doc.data().rating}
+        />);
+      }
+      if (props.search){
+        let prdName = doc.data().title.toLowerCase();
+        prdName = prdName.replace(/\s+/g, '');
+        let searchKey = props.search.replace(/\s+/g, '').toLowerCase();
+        console.log(prdName);
+        if (isSubsequence(searchKey, prdName)) pushData();
+      }
+      else if (!filter.onSale || doc.data().discountFrom !== '')
+        pushData();
+      
     });
 
+    // handle searching
+    if (props.search){
+      
+    }
     return productCards;
   }
+
+  useEffect(()=> {
+    fetchData().then((result)=>{
+      setDisplayProduct({list: result})
+    });
+  }, [props.search])
 
   useEffect(() => {
     fetchData().then((result)=>{
@@ -115,6 +151,7 @@ function ProductList(props){
 
   const resetSort = (e) => {
     setSortNull();
+    setFilter({onSale: false});
     fetchData().then((result)=>{
       setDisplayProduct({list: result})
     });

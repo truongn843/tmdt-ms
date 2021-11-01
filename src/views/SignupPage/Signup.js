@@ -4,10 +4,11 @@ import banner from "../../assert/banner.png";
 import { app } from "../../firebase";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, addDoc, doc, getDoc } from "firebase/firestore"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 
 import "../../components/reset.css";
 import "./signup.css";
-import Footer from "../../components/Footer/Footer";
 
 function SignUp() {
   const [user, setUser] = useState({ email: "", password: "", rPassword: "" , phone: ""});
@@ -90,9 +91,14 @@ function SignUp() {
         }
       });
   }
+  const backToHome = e => {
+    history.push("/");
+  }
   return (
     <div>
+     
       <div className="form">
+      <div className="homepage" onClick={backToHome}><FontAwesomeIcon icon={faArrowLeft}/> Trang chủ</div>
         <img src={banner} alt="" className="form-image" />
         <form action="" className="form-container" onSubmit={submitHandler}>
           <div className="signup-content">Đăng kí</div>

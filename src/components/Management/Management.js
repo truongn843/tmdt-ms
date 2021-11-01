@@ -91,7 +91,7 @@ function Management(props) {
                         currency: "VND",
                     })}
                     </td>
-                    <td><RatingStar rating={doc.data().rating}/></td>
+                    <td><RatingStar rating={doc.data().rating.toFixed(1)}/></td>
                     <td className="mn-btn-container">
                         <span className="mn-btn mn-edit" onClick={e=>handleEditPrd(e, doc.id)}><FontAwesomeIcon icon={faEdit}/></span>
                         <span className="mn-btn mn-rm" onClick={e=>setAlert({status: true, currentPrdID: doc.id})}><FontAwesomeIcon icon={faTimesCircle}/></span>
