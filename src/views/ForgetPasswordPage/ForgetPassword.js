@@ -54,6 +54,9 @@ function ForgetPassword(props) {
   const backToHome = e => {
     history.push("/");
   }
+  const handleLogin = () => {
+    history.push("/login");
+  };
   useEffect(() => {
     try{
       setError({status: true, message: props.location.state.msg});
@@ -79,25 +82,12 @@ function ForgetPassword(props) {
             value={user.email}
             required
           />
-          {/* <input
-            type="password"
-            placeholder="Mật khẩu mới"
-            className="password"
-            onChange={(e) => setUser({ ...user, password: e.target.value })}
-            value={user.password}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Nhập lại mật khẩu mới"
-            className="password"
-            onChange={(e) => setUser({ ...user, password: e.target.value })}
-            value={user.password}
-            required
-          /> */}
           <button type="submit" className="login">
             TÌM MẬT KHẨU
           </button>
+          <div className="btn login-link" onClick={handleLogin}>
+            Đăng nhập
+          </div>
         </form>
       </div>
     </div>
