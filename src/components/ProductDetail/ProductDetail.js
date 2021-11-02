@@ -371,12 +371,13 @@ export default function ProductDetail (props) {
 
             </div>
         </div>
-    </div> 
-
-    {vidId.value !== null &&
+        {vidId.value !== null &&
         <YoutubeEmbed 
         embedId={vidId.value}
         />}
+    </div> 
+
+
 </div>
     );
 }
