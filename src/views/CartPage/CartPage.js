@@ -79,6 +79,7 @@ function CartPage() {
         setCart(prev=>({
           items: [...prev.items,(
             <CartItem 
+              key= {item.id}
               imgURL = {item.imgURL}
               name = {item.name}
               quantity = {item.quantity}
@@ -107,6 +108,8 @@ function CartPage() {
     }    
     else {
       console.log(cost);
+      console.log(address);
+      console.log(name)
       history.push({
         pathname: '/payment',
         state: {...cost, voucher: cost.voucherDiscount !== 0}

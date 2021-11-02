@@ -60,6 +60,182 @@ export default function OrderPage (props) {
         history.push("/");
     }
 
+    const handleMoMoPayment = () => {
+
+      console.log(process.env.REACT_APP_PARTNER_CODE);
+      console.log(process.env.REACT_APP_ACCESS_KEY);
+      console.log(process.env.REACT_APP_SECRET_KEY);
+
+      var partnerCode = process.env.REACT_APP_PARTNER_CODE;
+      var    accessKey = process.env.REACT_APP_ACCESS_KEY;
+      
+      var    requestId = process.env.REACT_APP_PARTNER_CODE + new Date().getTime();
+      var    amount = status.amount.toString();
+      var    orderId = status.orderID;
+      var    orderInfo= "thanh toan don hang "  + orderId + " " + amount;
+      var    returnUrl =  "http://localhost:3000/";
+      var    notifyUrl = "https://google.com.vn";
+      var    requestType = "captureMoMoWallet";
+      var    extraData = "";
+      var secretkey = process.env.REACT_APP_SECRET_KEY;
+   
+      var rawSignature = "partnerCode=" + partnerCode +
+                      "&accessKey="+accessKey+
+                      "&requestId=" + requestId+
+                      "&amount=" + amount+
+                      "&orderId=" + orderId+
+                      "&orderInfo=" + orderInfo +
+                      "&returnUrl=" + returnUrl+
+                      "&notifyUrl=" + notifyUrl+
+                      "&extraData=" + extraData
+      const crypto = require('crypto');
+      var signature = crypto.createHmac('sha256', secretkey)
+        .update(rawSignature)
+        .digest('hex');
+
+      const url = 'https://test-payment.momo.vn/gw_payment/transactionProcessor';
+
+      const requestBody = JSON.stringify({
+        partnerCode : partnerCode,
+        accessKey : accessKey,
+        requestId : requestId,
+        amount : amount,
+        orderId : orderId,
+        orderInfo : orderInfo,
+        returnUrl : returnUrl,
+        notifyUrl : notifyUrl,
+        extraData : extraData,
+        requestType : requestType,
+        signature : signature,
+        
+    })
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+      const https = require('https');
+      const options = {
+        hostname: 'test-payment.momo.vn',
+        port: 443,
+        path: '/gw_payment/transactionProcessor',
+        method: 'POST',
+        headers: myHeaders
+  } 
+    
+
+    const req =  https.request(options, res => {
+      console.log(`Status: ${res.statusCode}`);
+      console.log(`Headers: ${JSON.stringify(res.headers)}`);
+      res.setEncoding('utf8');
+      res.on('data', (body) => {
+          const payUrl=JSON.parse(body).payUrl.toString();
+          console.log(payUrl);
+          window.setTimeout(function(){ window.location = payUrl; },1000);
+      });
+      res.on('end', () => {
+          console.log('No more data in response begin redirect');
+      });
+      }   )
+
+    req.on('error', (e) => {
+      console.log(`problem with request: ${e.message}`);
+    });
+  // write data to request body
+    console.log("Sending....")
+    req.write(requestBody);
+    req.end();  
+
+    }
+
+
+
+  //   const handleMoMoBanking= () => {
+
+  //     console.log(process.env.REACT_APP_PARTNER_CODE);
+  //     console.log(process.env.REACT_APP_ACCESS_KEY);
+  //     console.log(process.env.REACT_APP_SECRET_KEY);
+
+  //     var partnerCode = process.env.REACT_APP_PARTNER_CODE;
+  //     var    accessKey = process.env.REACT_APP_ACCESS_KEY;
+      
+  //     var    requestId = process.env.REACT_APP_PARTNER_CODE + new Date().getTime();
+  //     var    amount = status.amount.toString();
+  //     var    orderId = status.orderID;
+  //     var    orderInfo= "thanh toan don hang "  + orderId + " " + amount;
+  //     var    redirectUrl =  "http://localhost:3000/";
+  //     var    ipnUrl = "https://google.com.vn";
+  //     var    requestType = "payWithATM";
+  //     var    extraData = "";
+  //     var secretkey = process.env.REACT_APP_SECRET_KEY;
+   
+  //     var rawSignature = "partnerCode=" + partnerCode +
+  //                     "&accessKey="+accessKey+
+  //                     "&requestId=" + requestId+
+  //                     "&amount=" + amount+
+  //                     "&orderId=" + orderId+
+  //                     "&orderInfo=" + orderInfo +
+  //                     "&redirectUrl=" + redirectUrl+
+  //                     "&ipnUrl=" + ipnUrl+
+  //                     "&extraData=" + extraData
+  //     const crypto = require('crypto');
+  //     var signature = crypto.createHmac('sha256', secretkey)
+  //       .update(rawSignature)
+  //       .digest('hex');
+
+  //     const url = 'https://test-payment.momo.vn/gw_payment/transactionProcessor';
+
+  //     const requestBody = JSON.stringify({
+  //       partnerCode : partnerCode,
+  //       accessKey : accessKey,
+  //       requestId : requestId,
+  //       amount : amount,
+  //       orderId : orderId,
+  //       orderInfo : orderInfo,
+  //       redirectUrl : redirectUrl,
+  //       ipnUrl : ipnUrl,
+  //       extraData : extraData,
+  //       requestType : requestType,
+  //       signature : signature,
+  //       lang: vi
+  //   })
+
+  //   var myHeaders = new Headers();
+  //   myHeaders.append("Content-Type", "application/json");
+  //     const https = require('https');
+  //     const options = {
+  //       hostname: 'test-payment.momo.vn',
+  //       port: 443,
+  //       path: '/gw_payment/transactionProcessor',
+  //       method: 'POST',
+  //       headers: myHeaders
+  // } 
+    
+
+  //   const req =  https.request(options, res => {
+  //     console.log(`Status: ${res.statusCode}`);
+  //     console.log(`Headers: ${JSON.stringify(res.headers)}`);
+  //     res.setEncoding('utf8');
+  //     res.on('data', (body) => {
+  //         // const payUrl=JSON.parse(body).payUrl.toString();
+  //         console.log(payUrl);
+  //         window.setTimeout(function(){ window.location = payUrl; },1000);
+  //     });
+  //     res.on('end', () => {
+  //         console.log('No more data in response begin redirect');
+  //     });
+  //     }   )
+
+  //   req.on('error', (e) => {
+  //     console.log(`problem with request: ${e.message}`);
+  //   });
+  // // write data to request body
+  //   console.log("Sending....")
+  //   req.write(requestBody);
+  //   req.end();  
+
+  //   }
+
+
+
     return (
     <div>
         {navbar.bar}
@@ -121,12 +297,21 @@ export default function OrderPage (props) {
                               <td>0004 1000 xxxx xxxx</td>
                               <td>NGUYEN HUU TRUONG</td>
                             </tr>
+                            <tr>
+                            {/* <button className="bank-account amount-display amount-value" onClick={handleMoMoBanking}>Bấm để thanh toán ngân hàng </button> */}
+                            </tr>
                           </tbody>
                         </table>
+                        
                         }
+                        
+                      
                         { status.paymentMethod === "momo" &&
                         <div>
-                          <table className="bank-account">
+                          { ((status.amount <= 20000000) && (status.amount >= 1000)) ?
+                        <button className="bank-account amount-display amount-value" onClick={handleMoMoPayment}>Bấm để tạo mã QR </button>
+                          : <p className="bank-account amount-display amount-value">"Số tiền thanh toán Momo phải lớn hơn 1.000đ và bé hơn 20.000.000đ. Vui lòng chọn hình thức thanh toán khác"  </p> }
+                          {/* <table className="bank-account">
                             <tbody>
                               <tr>
                                 <th>Ví điện tử</th>
@@ -140,7 +325,7 @@ export default function OrderPage (props) {
                               </tr>
                             </tbody>
                           </table>
-                          <img src={qrcode} alt="qrcode" width="300px"/>
+                          <img src={qrcode} alt="qrcode" width="300px"/> */}
                         </div>
                         
                         }
@@ -152,7 +337,8 @@ export default function OrderPage (props) {
                     </div>
                 )}
 
-        </div>  
+        </div> 
+        
         <Footer/>
     </div>
     );
