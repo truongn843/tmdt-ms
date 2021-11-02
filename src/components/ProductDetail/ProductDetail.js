@@ -8,6 +8,8 @@ import RatingStar from "../RatingStar/RatingStar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router";
+import YoutubeEmbed from "../../components/Product/Components/Video";
+import youtube from '../../components/Product/Components/YouTubeAPI';
 
 export default function ProductDetail (props) {
     let history = useHistory();
@@ -17,6 +19,7 @@ export default function ProductDetail (props) {
     const [addSuccess, setAdd] = useState({status: false});
     const [tab, setTab] = useState({value: 1});
     const [prdImage, setPrdImage] = useState({url: null});
+    const [vidId, setVidID] = useState({value: null});
     const [product, setProduct] = useState({
         title: null,
         price: null,
@@ -43,6 +46,13 @@ export default function ProductDetail (props) {
         ratingCount: null,
         description: null
       });
+
+    const handleSubmit = async (procName) => {
+        setVidID({value: "E9WUtu5miXk"})
+        const response = await youtube.get('/search', {params: {q: procName + " review"}});
+        const videoId = response.data.items[0].id.videoId
+        setVidID({value: videoId})
+    };
 
     const getProduct = async () => {
         const prdRef = doc(db, "products", props.id);
@@ -74,6 +84,8 @@ export default function ProductDetail (props) {
                 ratingCount: prdSnap.data().ratingCount,
                 description: prdSnap.data().description
             })
+            handleSubmit(prdSnap.data().title);
+
         }
     }
 
@@ -153,6 +165,7 @@ export default function ProductDetail (props) {
     }
 
     return (
+<div>
     <div className="product-detail-container">
         <div className="col-image">
             <div className="image-container">
@@ -358,6 +371,12 @@ export default function ProductDetail (props) {
 
             </div>
         </div>
-    </div>
+    </div> 
+
+    {vidId.value !== null &&
+        <YoutubeEmbed 
+        embedId={vidId.value}
+        />}
+</div>
     );
 }
