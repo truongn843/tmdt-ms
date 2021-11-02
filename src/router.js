@@ -13,7 +13,7 @@ import AdminManagePageView from "./views/AdminManagePage/AdminManagePage";
 import Error from "./components/Error/Error";
 import OrderPageView from "./views/OrderPage/OrderPage";
 import EditProductPageView from "./views/EditProductPage/EditProductPage";
-import Ghn from "./views/PaymentPage/Ghn";
+
 const routes = [
   {
     path: "/",
@@ -24,11 +24,6 @@ const routes = [
     path: "/order-status",
     exact: true,
     component: OrderPageView,
-  },
-  {
-    path: "/ghn",
-    exact: true,
-    component: Ghn,
   },
   {
     path: "/user",
